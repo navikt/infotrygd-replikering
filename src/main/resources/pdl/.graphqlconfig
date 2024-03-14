@@ -1,0 +1,17 @@
+{
+  "name": "pdl-api",
+  "schemaPath": "pdl-api-schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "PDL GraphQL Endpoint": {
+        "url": "https://pdl-api.dev.intern.nav.no/graphql",
+        "headers": {
+          "user-agent": "historisk-tidsbegrenset-uforestonad",
+          "tema": "OMS",
+          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik1yNS1BVWliZkJpaTdOZDFqQmViYXhib1hXMCJ9.eyJhdWQiOiIzMGRmOGNlOC02NDMzLTQxZmEtOGNkNS0xNjMxODA0MjA2ODIiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vOTY2YWM1NzItZjViNy00YmJlLWFhODgtYzc2NDE5YzBmODUxL3YyLjAiLCJpYXQiOjE2NDI3NzA1MzMsIm5iZiI6MTY0Mjc3MDUzMywiZXhwIjoxNjQyNzc0OTcyLCJhaW8iOiJBVFFBeS84VEFBQUFQQ2dZUGxIaU9qTndxYWtMVHBpK2tmN0lTa1NCTDJuYkc4dDVFQlNzR1E3alNyc05YT0ZnV3diNkxnWkFueFk2IiwiYXpwIjoiNzQ0ZTQwOTItNDIxNS00ZTAyLTg3ZGYtYTYxYWFmMWI5NWI1IiwiYXpwYWNyIjoiMSIsImdyb3VwcyI6WyJkZWMzZWU1MC1iNjgzLTQ2NDQtOTUwNy01MjBlOGYwNTRhYzIiXSwibmFtZSI6IkZfWjk5NDUzNiBFX1o5OTQ1MzYiLCJvaWQiOiJjMjg4MjMxYi01Mzc2LTRmN2EtYTdiMy1iM2I5ZjVkNGEyMTciLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJGX1o5OTQ1MzYuRV9aOTk0NTM2QHRyeWdkZWV0YXRlbi5ubyIsInJoIjoiMC5BVWNBY3NWcWxyZjF2a3VxaU1ka0djRDRVWkpBVG5RVlFnSk9oOS1tR3E4YmxiVkhBQ3MuIiwic2NwIjoiZGVmYXVsdGFjY2VzcyIsInN1YiI6ImpNVk9HZDMtLVNFZVhfRi1lb0dJM2dIWjVheEdvRVJsZmJjUWJyVHhJVjgiLCJ0aWQiOiI5NjZhYzU3Mi1mNWI3LTRiYmUtYWE4OC1jNzY0MTljMGY4NTEiLCJ1dGkiOiJQeEhHbURxNWpraVF0MEYxUEg5bEFBIiwidmVyIjoiMi4wIiwiTkFWaWRlbnQiOiJaOTk0NTM2IiwiYXpwX25hbWUiOiJwcm9kLWZzczp0cmFrdG9yOmlkYSJ9.SB4bsV8j5lWFgqqYlUPomkRUt2dHXgGa1iyZN3FpfnUEdRDiIkqIP0NpfKfcqWNgIK2g5ZJbLrI3xV9Zcbp3BKh0FY_Uc8JP0b9Z4EsnDEyIAw8mlJowPJ56iN6o-Ei2ahL_i_PmiFxvos3r1cR9R7Y4e7LBPMLZ5ktnBayfWAwz4Dv8pzkyk_4Jnyw-76oHzpkevCvB4oIx8feMG4OJKErsoFHwsMCD02gYS8LYDuLk91Wg3c-0Aj4XRBnNiUKYZs_Jkocb_NJ5iMnDks4mfLtKmlQFpPLqr6SDHc3qfg3SJxuqGV-hMA4Fd-lIRfhTpVIvUeTcSdqERgdpAWvrRA"
+        },
+        "introspect": false
+      }
+    }
+  }
+}

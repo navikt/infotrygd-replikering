@@ -1,0 +1,74 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: {{app}}
+  namespace: {{namespace}}
+  labels:
+    team: {{team}}
+spec:
+  image: {{ image }}
+  port: 8080
+  azure:
+    application:
+      enabled: true
+      tenant: {{azureTenant}}
+      allowAllUsers: false
+      claims:
+        extra:
+          - NAVident
+        groups:
+          - id: {{gruppe.admin}}
+  webproxy: true
+  vault:
+    enabled: true
+    paths:
+      - kvPath: {{vault.credentials}}
+        mountPath: /secrets/oracle/credentials
+      - kvPath: {{vault.config}}
+        mountPath: /secrets/oracle/config
+  strategy:
+    type: RollingUpdate
+  liveness:
+    path: /actuator/health
+    initialDelay: 20
+    timeout: 5
+    periodSeconds: 5
+    failureThreshold: 50
+  readiness:
+    path: /actuator/health
+    initialDelay: 20
+    timeout: 5
+    failureThreshold: 1000
+  resources:
+    limits:
+      cpu: 1500m
+      memory: 1024Mi
+    requests:
+      cpu: 500m
+      memory: 256Mi
+  replicas:
+    min: 1
+    max: 2
+    cpuThresholdPercentage: 90
+  prometheus:
+    enabled: true
+    path: /actuator/prometheus
+  secureLogs:
+    enabled: true
+  ingresses:
+    - {{appInternalIngress}}
+  env:
+    - name: APP_DDL_AUTO
+      value: "none"
+    - name: APP_GRUPPE_ADMIN
+      value: "{{gruppe.admin}}"
+    - name: APP_AUDIT_HOST
+      value: "audit.nais"
+    - name: APP_AUDIT_PORT
+      value: "6514"
+    - name: spring_profiles_active
+      value: "{{springProfiles}}"
+    - name: "APP_DEFAULT_SCHEMA"
+      value: "{{schema}}"
+    - name: "APP_DDL_AUTO"
+      value: "none"

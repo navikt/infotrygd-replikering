@@ -1,0 +1,17 @@
+{
+  "namespace": "infotrygd",
+  "team": "infotrygd",
+  "app": "infotrygd-replikering",
+  "appInternalIngress": "https://infotrygd-replikering.intern.dev.nav.no",
+  "azureTenant": "trygdeetaten.no",
+  "env": "dev",
+  "gruppe": {
+    "admin": "d64d8687-3e44-4435-9a5b-3cd9f2785846"
+  },
+  "vault": {
+    "credentials": "oracle/data/dev/creds/historisk_exodus_q1-user",
+    "config": "oracle/data/dev/config/infotrygd_q1"
+  },
+  "springProfiles": "",
+  "schema": "infotrygd_hist_q1"
+}

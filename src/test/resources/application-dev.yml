@@ -1,0 +1,35 @@
+app:
+  frontend:
+    path: "frontend/build"
+  gruppe:
+    admin: "gruppe-admin"
+  tilganger:
+    testtabeller: default
+
+spring:
+  h2:
+    console.enabled: true
+  datasource:
+    hikari:
+      schema: test
+  jpa:
+    hibernate:
+      ddl-auto: validate
+pdl:
+  url: "http://localhost:8080/stubs/pdl"
+  scopes: "pdl"
+
+audit:
+  syslog:
+    host: localhost
+    port: 16515
+
+no.nav.security.jwt:
+  expirythreshold: 60 #threshold in minutes until token expires
+  issuer:
+    azure:
+      discoveryurl: "http://host.docker.internal:8102/azure-mock/.well-known/openid-configuration"
+      #todo oppdater navn
+      accepted_audience: historisk-tidsbegrenset-uforestonad
+      proxyurl: ~
+      cookiename: localhost-idtoken
