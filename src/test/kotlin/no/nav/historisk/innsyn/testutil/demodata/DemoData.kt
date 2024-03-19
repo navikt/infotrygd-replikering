@@ -15,13 +15,11 @@ class DemoData(
 
     @PostConstruct
     fun init() {
-        val inserts = listOf(
-            "insert into TEST_OPPDATERT (PS01_PERSONKEY) values (99123123123)",
-            "insert into TEST_OPPDATERT (PS01_PERSONKEY) values (23432423434)",
-
-            "insert into TEST_INGEN_TIMESTAMP (PS01_PERSONKEY) values (123)",
-            "insert into TEST_INGEN_TIMESTAMP (PS01_PERSONKEY) values (456)",
-            "insert into TEST_INGEN_TIMESTAMP (PS01_PERSONKEY) values (789)"
+        // lang=sql
+        val inserts: List<String> = listOf(
+            """insert into replikering_status (schema_name, table_name, ready) values ('testtabeller', 'testtabell', 1)""",
+            """insert into replikering_status (schema_name, table_name, ready) values ('testtabeller', 'ikke_eksisterende_tabell', 1)""",
+            """insert into testtabeller.testtabell (oppdatert) values (current_timestamp)"""
         )
         inserts.forEach {
             jdbcTemplate.jdbcTemplate.execute(it)

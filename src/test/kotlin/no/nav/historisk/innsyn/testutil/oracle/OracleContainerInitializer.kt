@@ -6,7 +6,6 @@ import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.core.io.ClassPathResource
-import org.springframework.core.io.Resource
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator
 import org.testcontainers.containers.OracleContainer
 import java.sql.DriverManager
@@ -17,7 +16,8 @@ class OracleContainerInitializer : ApplicationContextInitializer<ConfigurableApp
     override fun initialize(applicationContext: ConfigurableApplicationContext) {
         if (!container.isRunning) {
             container.start()
-            initializeSchema(container)
+            initializeSystemSchema(container)
+            initializeAppSchema(container)
         }
 
         logger.info("Oracle JDBC URL: ${container.jdbcUrl}, user: ${container.username}, password: ${container.password}")
@@ -39,12 +39,23 @@ class OracleContainerInitializer : ApplicationContextInitializer<ConfigurableApp
             conn.close()
         }
 
-        private fun initializeSchema(container: OracleContainer) {
+        private fun initializeAppSchema(container: OracleContainer) {
             logger.info("Initializing schema")
             val conn = DriverManager.getConnection(container.jdbcUrl, container.username, container.password)
 
             val p = ResourceDatabasePopulator()
             p.addScript(ClassPathResource("/testschema.sql"))
+            p.populate(conn)
+
+            conn.close()
+        }
+
+        private fun initializeSystemSchema(container: OracleContainer) {
+            logger.info("Initializing schema")
+            val conn = DriverManager.getConnection(container.jdbcUrl, "SYSTEM", container.password)
+
+            val p = ResourceDatabasePopulator()
+            p.addScript(ClassPathResource("/testschemaSystem.sql"))
             p.populate(conn)
 
             conn.close()
