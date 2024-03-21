@@ -34,15 +34,17 @@ class ReplikeringsstatusService(
     fun oppdater() {
         logger.info("Oppdater")
 
-        val metrikker = replikeringsstatusRepository.findAll().map {
-            try {
-                it.tabellRef to TabellMetrikker(
-                    sistOppdatering = finnSistOppdatert(it.tabellRef)
-                )
-            } catch (e: Exception) {
-                logger.error("Kunne ikke lese statistikk for tabell", e)
-                null
-            }
+        val metrikker = replikeringsstatusRepository.findAll()
+            .filter { it.ready }
+            .map {
+                try {
+                    it.tabellRef to TabellMetrikker(
+                        sistOppdatering = finnSistOppdatert(it.tabellRef)
+                    )
+                } catch (e: Exception) {
+                    logger.error("Kunne ikke lese statistikk for tabell", e)
+                    null
+                }
         }.filterNotNull().toMap()
 
         statusHolder.replikeringsstatistikk =
