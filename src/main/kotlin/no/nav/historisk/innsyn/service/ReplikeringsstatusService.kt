@@ -78,7 +78,11 @@ class ReplikeringsstatusService(
         }
 
         //lang=sql
-        val sql = """select max(OPPDATERT) as OPPDATERT, current_timestamp as TS from $tabellRef"""
+        val sql = """
+            select OPPDATERT, current_timestamp as TS from (
+              select max(OPPDATERT) as OPPDATERT from $tabellRef
+            )
+        """.trimIndent()
         val rader = jdbcTemplate.query(sql, emptyMap<String, Any>(), rowMapper)
         return rader[0]
     }
