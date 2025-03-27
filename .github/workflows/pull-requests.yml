@@ -30,4 +30,4 @@ jobs:
         uses: nais/docker-build-push@v0
         id: docker-build-push
         with:
-          team: infotrygd
+          team: historisk
