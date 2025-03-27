@@ -18,20 +18,12 @@ jobs:
         with:
           java-version: '17.x'
 
-      - name: create docker tag
-        env:
-          DOCKER_IMAGE: ghcr.io/${{ github.repository }}/infotrygd-replikering
-        run: |
-          echo $DOCKER_IMAGE > .docker_image
-          echo $(echo $GITHUB_SHA | cut -c1-7) > .docker_tag
-          echo IMAGE=$(cat .docker_image):$(cat .docker_tag) >> $GITHUB_ENV
-
       - name: Set cache key
         run: |
-          echo "CACHE_KEY=$(expr $(date +%V) - 1 + 1)" >> $GITHUB_ENV
+          echo "CACHE_KEY=$(expr $(date +%V))" >> $GITHUB_ENV
           echo "TIMESTAMP=$(expr $(date +%Y%m%d%H%M%S))" >> $GITHUB_ENV
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ env.CACHE_KEY }}
@@ -39,15 +31,13 @@ jobs:
       - name: Build artifacts
         run: mvn verify
 
-      - name: build docker image
-        run: docker build . --pull -t $IMAGE
-
-      - name: push docker image
-        run: |
-          echo "$GITHUB_ACCESS_TOKEN" | docker login --username "x-access-token" --password-stdin https://ghcr.io
-          docker push $IMAGE
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Bygg og push docker image til GAR
+        uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: infotrygd
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} # Provided as Organization Secret
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }} # Provided as Organization Variable
 
       - name: Deploy back-end til dev-fss
         uses: nais/deploy/actions/deploy@v2
@@ -55,11 +45,15 @@ jobs:
           CLUSTER: dev-fss
           RESOURCE: nais/app/backend.yaml
           VARS: nais/dev.json
+          VAR: image=${{ steps.docker-build-push.outputs.image  }}
+
 
       - name: Deploy back-end til prod-fss
         if: github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, 'ci skip')
         uses: nais/deploy/actions/deploy@v2
         env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-fss
           RESOURCE: nais/app/backend.yaml
           VARS: nais/prod.json
+          VAR: image=${{ steps.docker-build-push.outputs.image  }}
