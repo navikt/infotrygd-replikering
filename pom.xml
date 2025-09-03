@@ -20,7 +20,7 @@
 		<testcontainers.version>1.19.7</testcontainers.version>
 		<token-validation.version>3.1.7</token-validation.version>
 		<datasource-proxy.version>1.10</datasource-proxy.version>
-		<springdoc-openapi-ui.version>2.3.0</springdoc-openapi-ui.version>
+		<springdoc-openapi-ui.version>2.8.12</springdoc-openapi-ui.version>
 		<httpclient.version>4.5.14</httpclient.version>
 		<logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
 		<logback-syslog4j.version>1.0.0</logback-syslog4j.version>
