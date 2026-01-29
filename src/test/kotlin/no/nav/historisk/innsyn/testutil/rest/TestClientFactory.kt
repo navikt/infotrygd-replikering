@@ -8,8 +8,7 @@ import no.nav.historisk.innsyn.integration.client.ExceptionHandlerInterceptor
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.boot.restclient.RestTemplateBuilder
 import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpRequest
@@ -77,13 +76,9 @@ class TestClientFactory(
         private val logger = LoggerFactory.getLogger(javaClass)
 
         override fun hasError(response: ClientHttpResponse): Boolean {
-            val rawStatusCode = response.rawStatusCode
-            val series = HttpStatus.Series.resolve(rawStatusCode)
+            val status = response.statusCode.value()
+            val series = HttpStatus.Series.resolve(status)
             return series == HttpStatus.Series.CLIENT_ERROR || series == HttpStatus.Series.SERVER_ERROR
-        }
-
-        override fun handleError(response: ClientHttpResponse) {
-            throw IllegalArgumentException("Not implemented")
         }
 
         override fun handleError(url: URI, method: HttpMethod, response: ClientHttpResponse) {

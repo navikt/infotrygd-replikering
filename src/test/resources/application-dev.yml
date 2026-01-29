@@ -32,4 +32,3 @@ no.nav.security.jwt:
       #todo oppdater navn
       accepted_audience: historisk-tidsbegrenset-uforestonad
       proxyurl: ~
-      cookiename: localhost-idtoken

@@ -20,7 +20,7 @@ class LoggingInterceptor(private val kildesystem: Kildesystem) : ClientHttpReque
             execution.execute(request, body)
         }
 
-        logger.info("HTTP client call (${kildesystem}) [${millis}ms]: ${res.rawStatusCode} ${request.method} ${request.uri}")
+        logger.info("HTTP client call (${kildesystem}) [${millis}ms]: ${res.statusCode.value()} ${request.method} ${request.uri}")
 
         return res
     }

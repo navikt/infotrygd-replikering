@@ -12,18 +12,8 @@ import java.net.URI
 
 class ClientErrorHandler(private val kildesystem: Kildesystem) : ResponseErrorHandler {
     override fun hasError(response: ClientHttpResponse): Boolean {
-        val rawStatusCode = response.rawStatusCode
-        val series = Series.resolve(rawStatusCode)
+        val series = Series.resolve(response.statusCode.value())
         return series == Series.CLIENT_ERROR || series == Series.SERVER_ERROR
-    }
-
-    override fun handleError(response: ClientHttpResponse) {
-        throw KildesystemException(
-            kildesystem,
-            "Feil ved REST-kall",
-            HttpStatus.resolve(response.statusCode.value()),
-            additionalResponseHeaders = headers(response)
-        )
     }
 
     override fun handleError(url: URI, method: HttpMethod, response: ClientHttpResponse) {

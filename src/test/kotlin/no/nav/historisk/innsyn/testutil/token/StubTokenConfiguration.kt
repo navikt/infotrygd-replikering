@@ -24,7 +24,7 @@ class StubTokenConfiguration {
     @Bean
     fun tokenValidationContextHolder(): TokenValidationContextHolder {
         val holder = mock(TokenValidationContextHolder::class.java)
-        Mockito.`when`(holder.tokenValidationContext)
+        Mockito.`when`(holder.getTokenValidationContext())
             .thenReturn(tokenValidationContext())
         return holder
     }

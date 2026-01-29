@@ -8,12 +8,14 @@ import no.nav.historisk.innsyn.testutil.annotation.ServiceTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Import
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
 @ServiceTest
+@Import(ReplikeringsstatusService::class, TestMeterRegistryConfig::class)
 //@Transactional
 class ReplikeringsstatusServiceTest {
 

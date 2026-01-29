@@ -3,7 +3,7 @@ package no.nav.historisk.innsyn
 import no.nav.historisk.innsyn.testutil.annotation.IntegrationTest
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.boot.restclient.RestTemplateBuilder
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForObject
