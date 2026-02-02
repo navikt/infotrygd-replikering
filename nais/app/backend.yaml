@@ -23,9 +23,7 @@ spec:
     enabled: true
     paths:
       - kvPath: {{vault.credentials}}
-        mountPath: /secrets/oracle/credentials
-      - kvPath: {{vault.config}}
-        mountPath: /secrets/oracle/config
+        mountPath: /var/run/secrets/oracle/creds
   strategy:
     type: RollingUpdate
   liveness:

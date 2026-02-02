@@ -48,3 +48,7 @@ AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: "http://localhost:${mock-oauth2-server.port}
 AZURE_APP_CLIENT_ID: "aud-localhost"
 AZURE_APP_JWK: "src/test/resources/jwk.json"
 APP_DEFAULT_SCHEMA: "test"
+
+vault:
+  password: "src/test/resources/vault/password"
+  username: "src/test/resources/vault/username"

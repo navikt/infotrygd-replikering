@@ -10,7 +10,6 @@
   },
   "vault": {
     "credentials": "oracle/data/dev/creds/infotrygd_rest_read_q1-user",
-    "config": "oracle/data/dev/config/infotrygd_q1"
   },
   "springProfiles": "",
   "schema": "infotrygd_q1",

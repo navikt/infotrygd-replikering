@@ -58,3 +58,7 @@ no.nav.security.jwt:
       accepted_audience: ${AZURE_APP_CLIENT_ID}
 logging:
   config: classpath:logback-spring.xml
+
+  vault:
+    password: "/var/run/secrets/oracle/creds/password"
+    username: "/var/run/secrets/oracle/creds/username"
