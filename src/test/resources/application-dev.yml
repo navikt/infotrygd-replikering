@@ -34,9 +34,9 @@ AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: "http://host.docker.internal:${mock-oauth2-s
 AZURE_APP_CLIENT_ID: "infotrygd-replikering"
 AZURE_APP_JWK: "backend/src/test/resources/jwk.json"
 
-vault:
-  password: "backend/src/test/resources/vault/password"
-  username: "backend/src/test/resources/vault/username"
 #vault:
-#  password: "/var/run/secrets/oracle/creds/password"
-#  username: "/var/run/secrets/oracle/creds/username"
+#  password: "src/test/resources/vault/password"
+#  username: "src/test/resources/vault/username"
+vault:
+  password: "/var/run/secrets/oracle/creds/password"
+  username: "/var/run/secrets/oracle/creds/username"
