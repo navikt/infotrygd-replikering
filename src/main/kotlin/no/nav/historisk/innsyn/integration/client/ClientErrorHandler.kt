@@ -16,15 +16,6 @@ class ClientErrorHandler(private val kildesystem: Kildesystem) : ResponseErrorHa
         return series == Series.CLIENT_ERROR || series == Series.SERVER_ERROR
     }
 
-    override fun handleError(response: ClientHttpResponse) {
-        throw KildesystemException(
-            kildesystem,
-            "Feil ved REST-kall",
-            HttpStatus.resolve(response.statusCode.value()),
-            additionalResponseHeaders = headers(response)
-        )
-    }
-
     override fun handleError(url: URI, method: HttpMethod, response: ClientHttpResponse) {
         val status = response.statusCode
 

@@ -84,10 +84,6 @@ class TestClientFactory(
             return series == HttpStatus.Series.CLIENT_ERROR || series == HttpStatus.Series.SERVER_ERROR
         }
 
-        override fun handleError(response: ClientHttpResponse) {
-            throw IllegalArgumentException("Not implemented")
-        }
-
         override fun handleError(url: URI, method: HttpMethod, response: ClientHttpResponse) {
             val status = response.statusCode
             val contentType = response.headers.contentType
