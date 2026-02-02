@@ -70,5 +70,11 @@ spec:
       value: "{{springProfiles}}"
     - name: APP_DEFAULT_SCHEMA
       value: "{{schema}}"
-    - name: APP_DDL_AUTO
-      value: "none"
+    - name: APP_DATASOURCE_URL
+      value: "{{datasourceUrl}}"
+    - name: APP_DATASOURCE_USERNAME_PATH
+      value: "/var/run/secrets/oracle/creds/username"
+    - name: APP_DATASOURCE_PASSWORD_PATH
+      value: "/var/run/secrets/oracle/creds/password"
+    - name: NAIS_APP_NAME
+      value: "infotrygd-replikering"

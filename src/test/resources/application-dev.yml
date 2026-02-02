@@ -28,7 +28,11 @@ no.nav.security.jwt:
   expirythreshold: 60 #threshold in minutes until token expires
   issuer:
     azure:
-      discoveryurl: "http://host.docker.internal:8102/azure-mock/.well-known/openid-configuration"
-      #todo oppdater navn
-      accepted_audience: historisk-tidsbegrenset-uforestonad
+      discoveryurl: ${AZURE_APP_WELL_KNOWN_URL}
+      accepted_audience: ${AZURE_APP_CLIENT_ID}
       proxyurl: ~
+
+AZURE_APP_WELL_KNOWN_URL: "http://host.docker.internal:8102/azure-mock/.well-known/openid-configuration"
+AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: "http://host.docker.internal:${mock-oauth2-server.port}/issuer1/token"
+AZURE_APP_CLIENT_ID: "historisk-tidsbegrenset-uforestonad"
+AZURE_APP_JWK: "backend/src/test/resources/jwk.json"

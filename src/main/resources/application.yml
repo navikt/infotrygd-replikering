@@ -26,7 +26,7 @@ spring:
       globally_quoted_identifiers_skip_column_definitions: false
     properties:
       hibernate:
-        default_schema: ${APP_DEFAULT_SCHEMA:}
+        default_schema: ${APP_DEFAULT_SCHEMA}
   sql:
     init:
       platform: org.hibernate.dialect.OracleDialect
