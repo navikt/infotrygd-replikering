@@ -72,12 +72,12 @@ services:
       APP_AUDIT_HOST: localhost
       APP_AUDIT_PORT: 1111
 
-  postgres:
-    image: "postgres:11.1"
+  oracle:
+    image: "gvenzl/oracle-free:23-slim-faststart"
     restart: on-failure
     ports:
-      - "5032:5432"
+      - "1521:1521"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: historisk
-      POSTGRES_DB: historisk
+      ORACLE_PASSWORD: dev
+      APP_USER: dev
+      APP_USER_PASSWORD: dev
