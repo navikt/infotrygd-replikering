@@ -12,8 +12,7 @@ import java.net.URI
 
 class ClientErrorHandler(private val kildesystem: Kildesystem) : ResponseErrorHandler {
     override fun hasError(response: ClientHttpResponse): Boolean {
-        val rawStatusCode = response.rawStatusCode
-        val series = Series.resolve(rawStatusCode)
+        val series = Series.resolve(response.statusCode.value())
         return series == Series.CLIENT_ERROR || series == Series.SERVER_ERROR
     }
 

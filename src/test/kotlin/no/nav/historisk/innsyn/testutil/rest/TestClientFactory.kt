@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpRequest
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.Series
 import org.springframework.http.MediaType
 import org.springframework.http.client.ClientHttpRequestExecution
 import org.springframework.http.client.ClientHttpRequestInterceptor
@@ -40,7 +41,8 @@ class TestClientFactory(
     private val objectMapper: ObjectMapper
 ) {
 
-    fun get(port: Int, inkluderAccessToken: Boolean = true, clientId: String = "default", roller: List<String> = emptyList()): TestClient {
+    fun get(port: Int, inkluderAccessToken: Boolean = true,
+            clientId: String = "default", roller: List<String> = emptyList()): TestClient {
         val grupper = mutableListOf<String>()
 
         return TestClient(restTemplate(
@@ -52,7 +54,8 @@ class TestClientFactory(
         ))
     }
 
-    private fun restTemplate(port: Int, grupper: List<String>, roller: List<String>, clientId: String, inkluderAccessToken: Boolean): RestTemplate {
+    private fun restTemplate(port: Int, grupper: List<String>, roller: List<String>,
+                             clientId: String, inkluderAccessToken: Boolean): RestTemplate {
 
         val kildesystem = Kildesystem.SELF
 
@@ -77,8 +80,7 @@ class TestClientFactory(
         private val logger = LoggerFactory.getLogger(javaClass)
 
         override fun hasError(response: ClientHttpResponse): Boolean {
-            val rawStatusCode = response.rawStatusCode
-            val series = HttpStatus.Series.resolve(rawStatusCode)
+            val series = Series.resolve(response.statusCode.value())
             return series == HttpStatus.Series.CLIENT_ERROR || series == HttpStatus.Series.SERVER_ERROR
         }
 

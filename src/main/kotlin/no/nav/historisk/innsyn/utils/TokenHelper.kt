@@ -9,19 +9,19 @@ import org.springframework.stereotype.Component
 @Component
 class TokenHelper(private val ctxHolder: TokenValidationContextHolder) {
     fun grupper(): List<String> {
-        val oidcValidationContext: TokenValidationContext = ctxHolder.tokenValidationContext
+        val oidcValidationContext: TokenValidationContext = ctxHolder.getTokenValidationContext()
         return oidcValidationContext.getClaims(AzureIssuer).getAsList("groups")?:
             throw IllegalStateException("Token mangler claim \"groups\"")
     }
 
     fun roller(): List<String> {
-        val oidcValidationContext: TokenValidationContext = ctxHolder.tokenValidationContext
+        val oidcValidationContext: TokenValidationContext = ctxHolder.getTokenValidationContext()
         return oidcValidationContext.getClaims(AzureIssuer).getAsList("roles")?:
         throw IllegalStateException("Token mangler claim \"roles\"")
     }
 
     fun azureClientIds() : Set<String> {
-        val oidcValidationContext: TokenValidationContext = ctxHolder?.tokenValidationContext
+        val oidcValidationContext: TokenValidationContext = ctxHolder.getTokenValidationContext()
             ?: return emptySet()
 
         return oidcValidationContext.issuers
