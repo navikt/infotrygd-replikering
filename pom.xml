@@ -21,7 +21,7 @@
 		<token-validation.version>5.0.30</token-validation.version>
 		<mock-oauth2-server.version>3.0.1</mock-oauth2-server.version>
 		<datasource-proxy.version>1.11.0</datasource-proxy.version>
-		<springdoc-openapi-ui.version>2.3.0</springdoc-openapi-ui.version>
+		<springdoc-openapi-ui.version>3.0.1</springdoc-openapi-ui.version>
 		<logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
 		<jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
 		<maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
@@ -156,9 +156,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.oracle.ojdbc</groupId>
-			<artifactId>ojdbc8</artifactId>
-			<version>19.3.0.0</version>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc11</artifactId>
+			<version>21.1.0.0</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -166,6 +166,16 @@
 			<artifactId>oracle-xe</artifactId>
 			<version>${testcontainers.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.hypersistence</groupId>
+			<artifactId>hypersistence-utils-hibernate-71</artifactId>
+			<version>3.15.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>7.2.0.Final</version>
 		</dependency>
 
 		<!-- token-validation-test-support -->
