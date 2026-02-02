@@ -41,8 +41,4 @@ private fun genererMelding(
 
 enum class Kildesystem {
     SELF,
-    INFOTRYGD,
-    PDL,
-    OAUTH2_PROVIDER,
-    STS
 }

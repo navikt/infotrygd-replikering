@@ -15,9 +15,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-pdl:
-  url: "http://localhost:8080/stubs/pdl"
-  scopes: "pdl"
 
 audit:
   syslog:

@@ -43,9 +43,6 @@ management:
 #oidc...
 http.proxy.parametername: notused
 
-pdl:
-  url: ${PDL_BASE_URL}
-  scopes: ${PDL_SCOPES}
 
 audit:
   syslog:

@@ -19,9 +19,6 @@ spring:
     init:
       mode: always
 #      platform: postgresql
-pdl:
-  url: "http://localhost:12398/stubs/pdl"
-  scopes: "pdl"
 
 audit:
   syslog:
