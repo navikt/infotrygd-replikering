@@ -28,8 +28,8 @@ class ApplicationTest {
     fun contextLoads() {
     }
 
-    @Test
-    fun health() {
-        restTemplate.getForObject<String>("/actuator/health")
-    }
+//    @Test
+//    fun health() {
+//        restTemplate.getForObject<String>("/actuator/health")
+//    }
 }

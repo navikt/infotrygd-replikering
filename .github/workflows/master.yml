@@ -45,12 +45,12 @@ jobs:
           VARS: nais/dev.json
           VAR: image=${{ steps.docker-build-push.outputs.image  }}
 
-      - name: Deploy back-end til prod-fss
-        if: github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, 'ci skip')
-        uses: nais/deploy/actions/deploy@v2
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: prod-fss
-          RESOURCE: nais/app/backend.yaml
-          VARS: nais/prod.json
-          VAR: image=${{ steps.docker-build-push.outputs.image  }}
+#      - name: Deploy back-end til prod-fss
+#        if: github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, 'ci skip')
+#        uses: nais/deploy/actions/deploy@v2
+#        env:
+#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+#          CLUSTER: prod-fss
+#          RESOURCE: nais/app/backend.yaml
+#          VARS: nais/prod.json
+#          VAR: image=${{ steps.docker-build-push.outputs.image  }}
