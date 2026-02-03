@@ -41,4 +41,5 @@ private fun genererMelding(
 
 enum class Kildesystem {
     SELF,
+    INFOTRYGD
 }
