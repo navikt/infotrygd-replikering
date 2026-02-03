@@ -35,9 +35,5 @@ AZURE_APP_CLIENT_ID: "infotrygd-replikering"
 AZURE_APP_JWK: "backend/src/test/resources/jwk.json"
 
 vault:
-# for å kjøre i dev
-#  password: "/var/run/secrets/oracle/creds/password"
-#  username: "/var/run/secrets/oracle/creds/username"
-# for å kjøre lokalt med vault dev-server
-  password: "src/test/resources/vault/password"
-  username: "src/test/resources/vault/username"
+  password: "/var/run/secrets/oracle/creds/password"
+  username: "/var/run/secrets/oracle/creds/username"
