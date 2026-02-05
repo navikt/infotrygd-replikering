@@ -1,6 +1,6 @@
 package no.nav.historisk.innsyn.testutil.rest
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import com.nimbusds.jose.JOSEObjectType
 import no.nav.historisk.innsyn.exception.Feilmelding
 import no.nav.historisk.innsyn.exception.Kildesystem
@@ -8,7 +8,6 @@ import no.nav.historisk.innsyn.integration.client.ExceptionHandlerInterceptor
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.restclient.RestTemplateBuilder
 import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpMethod

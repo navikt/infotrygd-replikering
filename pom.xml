@@ -11,8 +11,8 @@
 	<groupId>no.nav.historisk</groupId>
 	<artifactId>infotrygd-replikering</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>historisk-pensjon</name>
-	<description>Demo project for Spring Boot</description>
+	<name>infotrygd-replikering</name>
+	<description>Monitorering av Infotrygd-replikering i Grafana </description>
 
 	<properties>
 		<java.version>21</java.version>
@@ -24,7 +24,6 @@
 		<springdoc-openapi-ui.version>3.0.1</springdoc-openapi-ui.version>
 		<logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
 		<ojdbc11.version>21.1.0.0</ojdbc11.version>
-		<hypersistence-utils-hibernate-71.version>3.15.0</hypersistence-utils-hibernate-71.version>
 	</properties>
 
 	<dependencyManagement>
@@ -140,11 +139,6 @@
 			<groupId>org.testcontainers</groupId>
 			<artifactId>oracle-xe</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.hypersistence</groupId>
-			<artifactId>hypersistence-utils-hibernate-71</artifactId>
-			<version>${hypersistence-utils-hibernate-71.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>

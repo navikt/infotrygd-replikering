@@ -35,11 +35,8 @@ management:
         include: health,info
 
 no.nav.security.jwt:
-  expirythreshold: 60 #threshold in minutes until token expires
   issuer:
     azure:
-      discoveryurl: ${AZURE_APP_WELL_KNOWN_URL}
-      accepted_audience: ${AZURE_APP_CLIENT_ID}
       proxyurl: ~
 
 

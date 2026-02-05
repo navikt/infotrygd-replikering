@@ -17,6 +17,8 @@ spring:
       schema: ${APP_DEFAULT_SCHEMA}
       maximum-pool-size: 2
     url: ${APP_DATASOURCE_URL}
+    username: ${APP_DATASOURCE_USERNAME:}
+    password: ${APP_DATASOURCE_PASSWORD:}
     driver-class-name: oracle.jdbc.driver.OracleDriver
   jpa:
     hibernate:
@@ -27,7 +29,7 @@ spring:
         default_schema: ${APP_DEFAULT_SCHEMA}
   sql:
     init:
-      platform: org.hibernate.dialect.OracleDialect
+      platform: oracle
 
 management:
   endpoint:

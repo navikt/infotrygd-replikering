@@ -22,12 +22,9 @@ audit:
     port: 16515
 
 no.nav.security.jwt:
-  expirythreshold: 60 #threshold in minutes until token expires
   issuer:
     azure:
-      discoveryurl: ${AZURE_APP_WELL_KNOWN_URL}
-      accepted_audience: ${AZURE_APP_CLIENT_ID}
-      proxyurl: ~
+     proxyurl: ~
 
 AZURE_APP_WELL_KNOWN_URL: "http://host.docker.internal:8102/azure-mock/.well-known/openid-configuration"
 AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: "http://host.docker.internal:${mock-oauth2-server.port}/issuer1/token"
@@ -35,5 +32,5 @@ AZURE_APP_CLIENT_ID: "infotrygd-replikering"
 AZURE_APP_JWK: "backend/src/test/resources/jwk.json"
 
 vault:
-  password: "/var/run/secrets/oracle/creds/password"
-  username: "/var/run/secrets/oracle/creds/username"
+  password: "src/test/resources/vault/password"
+  username: "src/test/resources/vault/username"
