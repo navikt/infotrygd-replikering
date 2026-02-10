@@ -16,8 +16,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(
-    classes = [ TilgangskontrollService::class,
-        TilgangskontrollServiceTest.MockConfig::class
+    classes = [ TilgangskontrollService::class
      ],
     properties = [
         "app.gruppe.admin=gruppeAdmin"
@@ -46,10 +45,5 @@ internal class TilgangskontrollServiceTest {
         Assertions.assertThat(e.feilkode).isEqualTo(Feilkode.IKKE_TILGANG_TIL_APPLIKASJON)
     }
 
-    @TestConfiguration
-    class MockConfig {
-        @Bean
-        fun tokenHelper(): TokenHelper = mock()
 
-    }
 }
