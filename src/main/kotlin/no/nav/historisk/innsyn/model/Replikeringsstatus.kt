@@ -15,6 +15,7 @@ class Replikeringsstatus(
     val tabell: Tabellnavn,
 
     @Column(name = "READY")
+    @Convert(converter = BooleanToIntConverter::class)
     val ready: Boolean
 ) {
     @Id

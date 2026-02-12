@@ -12,18 +12,18 @@
           "claims": {
             "sub": "subByScope",
             "sid": "1234",
-            "aud": "historisk-tidsbegrenset-uforestonad",
+            "aud": "infotrygd-replikering",
             "groups": ["gruppe-admin"],
             "roles": ["test_oppdatert", "test_ingen_timestamp"]
           }
         },
         {
           "requestParam": "scope",
-          "match": "historisk-tidsbegrenset-uforestonad/.default",
+          "match": "infotrygd-replikering/.default",
           "claims": {
             "sub": "subByScope",
             "sid": "1234",
-            "aud": "historisk-tidsbegrenset-uforestonad"
+            "aud": "infotrygd-replikering"
           }
         }
       ]

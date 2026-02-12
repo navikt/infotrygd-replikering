@@ -1,10 +1,9 @@
-FROM navikt/java:17
-
+FROM gcr.io/distroless/java21-debian12:nonroot
 ENV JAVA_OPTS="${JAVA_OPTS} -Xms270M"
+ENV TZ="Europe/Oslo"
 
+WORKDIR /app
 COPY target/*.jar app.jar
 
-COPY init-scripts/init.sh /init-scripts/init.sh
-
+CMD ["java", "-jar", "/app/app.jar"]
 EXPOSE 8080
-

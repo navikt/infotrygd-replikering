@@ -8,6 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.core.io.ClassPathResource
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator
 import org.testcontainers.containers.OracleContainer
+import org.testcontainers.utility.DockerImageName
 import java.sql.DriverManager
 
 class OracleContainerInitializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -63,7 +64,8 @@ class OracleContainerInitializer : ApplicationContextInitializer<ConfigurableApp
 
         // Lazy because we only want it to be initialized when accessed
         private val container: OracleContainer by lazy {
-            OracleContainer("gvenzl/oracle-xe:18-faststart")
+            OracleContainer(DockerImageName.parse("gvenzl/oracle-free:23-slim-faststart")
+                .asCompatibleSubstituteFor("gvenzl/oracle-xe"))
                     .withDatabaseName("test")
                     .withUsername("test")
                     .withPassword("test")

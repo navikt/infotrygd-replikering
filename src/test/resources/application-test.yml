@@ -19,20 +19,33 @@ spring:
     init:
       mode: always
 #      platform: postgresql
-pdl:
-  url: "http://localhost:12398/stubs/pdl"
-  scopes: "pdl"
 
 audit:
   syslog:
     host: localhost
     port: 16515
 
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
 no.nav.security.jwt:
-  expirythreshold: 60 #threshold in minutes until token expires
   issuer:
     azure:
-      discoveryurl: http://localhost:${mock-oauth2-server.port}/issuer1/.well-known/openid-configuration
-      accepted_audience: aud-localhost
       proxyurl: ~
-      cookiename: localhost-idtoken
+
+
+AZURE_APP_WELL_KNOWN_URL: "http://localhost:${mock-oauth2-server.port}/issuer1/.well-known/openid-configuration"
+AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: "http://localhost:${mock-oauth2-server.port}/issuer1/token"
+AZURE_APP_CLIENT_ID: "aud-localhost"
+AZURE_APP_JWK: "src/test/resources/jwk.json"
+APP_DEFAULT_SCHEMA: "test"
+
+vault:
+  password: "src/test/resources/vault/password"
+  username: "src/test/resources/vault/username"
