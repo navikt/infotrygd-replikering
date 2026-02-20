@@ -16,10 +16,10 @@ spring:
     hikari:
       schema: ${APP_DEFAULT_SCHEMA}
       maximum-pool-size: 2
-    url: ${APP_DATASOURCE_URL}
+    url: ${APP_DATASOURCE_URL:}
     username: ${APP_DATASOURCE_USERNAME:}
     password: ${APP_DATASOURCE_PASSWORD:}
-    driver-class-name: oracle.jdbc.driver.OracleDriver
+    driver-class-name: oracle.jdbc.OracleDriver
   jpa:
     hibernate:
       ddl-auto: ${APP_DDL_AUTO:validate}
@@ -60,5 +60,7 @@ logging:
   config: classpath:logback-spring.xml
 
 vault:
-  password: "/var/run/secrets/oracle/creds/password"
-  username: "/var/run/secrets/oracle/creds/username"
+  password: "/var/run/secrets/oracle/credentials/password"
+  username: "/var/run/secrets/oracle/credentials/username"
+  config: "/var/run/secrets/oracle/config"
+  configKey: "jdbc_url"
