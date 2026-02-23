@@ -6,7 +6,7 @@ metadata:
   labels:
     team: {{team}}
 spec:
-  image: { { image } }
+  image: {{ image }}
   port: 8080
   azure:
     application:
@@ -53,6 +53,14 @@ spec:
   prometheus:
     enabled: true
     path: /actuator/prometheus
+  observability:
+    logging:
+      destinations:
+        - id: elastic
+        - id: loki
+    autoInstrumentation:
+      enabled: true
+      runtime: java
   secureLogs:
     enabled: true
   ingresses:
