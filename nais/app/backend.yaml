@@ -6,7 +6,7 @@ metadata:
   labels:
     team: {{team}}
 spec:
-  image: {{ image }}
+  image: { { image } }
   port: 8080
   azure:
     application:
@@ -24,6 +24,8 @@ spec:
     paths:
       - kvPath: {{vault.credentials}}
         mountPath: /var/run/secrets/oracle/creds
+      - kvPath: {{vault.config}}
+        mountPath: /var/run/secrets/oracle/config
   strategy:
     type: RollingUpdate
   liveness:
@@ -68,5 +70,3 @@ spec:
       value: "{{springProfiles}}"
     - name: APP_DEFAULT_SCHEMA
       value: "{{schema}}"
-    - name: APP_DATASOURCE_URL
-      value: "{{datasourceUrl}}"
