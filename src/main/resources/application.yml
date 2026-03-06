@@ -60,7 +60,7 @@ logging:
   config: classpath:logback-spring.xml
 
 vault:
-  password: "/var/run/secrets/oracle/credentials/password"
-  username: "/var/run/secrets/oracle/credentials/username"
+  password: "/var/run/secrets/oracle/creds/password"
+  username: "/var/run/secrets/oracle/creds/username"
   config: "/var/run/secrets/oracle/config"
   configKey: "jdbc_url"
