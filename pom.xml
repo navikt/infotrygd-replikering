@@ -23,7 +23,7 @@
 		<datasource-proxy.version>1.11.0</datasource-proxy.version>
 		<springdoc-openapi-ui.version>3.0.1</springdoc-openapi-ui.version>
 		<logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
-		<ojdbc11.version>21.1.0.0</ojdbc11.version>
+		<ojdbc11.version>23.26.1.0.0</ojdbc11.version>
 	</properties>
 
 	<dependencyManagement>
