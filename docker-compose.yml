@@ -25,7 +25,7 @@ services:
       - "backend-proxy:80"
       - "--openid.scopes"
       - "oidc-auth-proxy/.default"
-    restart: on-failure
+    restart: "no"
     ports:
       - "4000:80"
     depends_on:
@@ -51,7 +51,7 @@ services:
 
   backend:
     build: .
-    restart: on-failure
+    restart: "no"
     ports:
       - "8080:8080"
     extra_hosts:
@@ -71,7 +71,7 @@ services:
 
   oracle:
     image: "gvenzl/oracle-free:23-slim-faststart"
-    restart: on-failure
+    restart: "no"
     ports:
       - "1521:1521"
     environment:
