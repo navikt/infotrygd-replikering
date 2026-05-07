@@ -19,7 +19,7 @@
 		<kotlin.version>2.3.21</kotlin.version>
 		<testcontainers.version>1.21.4</testcontainers.version>
 		<token-validation.version>5.0.30</token-validation.version>
-		<mock-oauth2-server.version>3.0.1</mock-oauth2-server.version>
+		<mock-oauth2-server.version>3.0.3</mock-oauth2-server.version>
 		<datasource-proxy.version>1.11.0</datasource-proxy.version>
 		<springdoc-openapi-ui.version>3.0.3</springdoc-openapi-ui.version>
 		<logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
