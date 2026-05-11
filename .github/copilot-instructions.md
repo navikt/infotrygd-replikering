@@ -39,8 +39,8 @@ Azure AD med `@EnableJwtTokenValidation`. Profilen `noauth` deaktiverer sikkerhe
 **Database-tilkobling:**
 HikariCP med `maximum-pool-size: 2` (Oracle on-prem, lavt volum). Schema settes via `hikari.schema`. DDL-validering via Hibernate (`ddl-auto: validate`).
 
-## Minimal Editing
+## Minimale endringer
 
-When fixing a bug or implementing a feature, change only what is necessary.
-Do not rename variables, restructure working code, or refactor beyond the task at hand.
-Keep diffs small and focused so they are easy to review.
+Når du retter en feil eller implementerer en funksjon, skal du bare endre det som er nødvendig.
+Ikke gi variabler nye navn, omstrukturer velfungerende kode, eller refaktorer utover det oppgaven krever.
+Hold diffene små og fokuserte, slik at de er enkle å gjennomgå.
