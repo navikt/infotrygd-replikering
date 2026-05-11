@@ -24,12 +24,16 @@ services:
       - "backend-proxy:80"
       - "--openid.scopes"
       - "oidc-auth-proxy/.default"
-    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 120s
     ports:
       - "4000:80"
     depends_on:
       - "mock-oidc"
-    container_name: "wonderwall"
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -50,7 +54,12 @@ services:
 
   backend:
     build: .
-    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 120s
     ports:
       - "8080:8080"
     extra_hosts:
@@ -70,7 +79,12 @@ services:
 
   oracle:
     image: "gvenzl/oracle-free:23-slim-faststart"
-    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 120s
     ports:
       - "1521:1521"
     environment:
