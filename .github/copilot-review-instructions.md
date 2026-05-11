@@ -4,10 +4,10 @@
 - Use Kotest matchers (`shouldBe`) in tests
 - Prefer sealed classes for state modeling
 
-## Norwegian text (all `.md` and user-facing strings)
+## Norsk tekst (brukerrettet tekst og varig dokumentasjon)
 
-- Use Norwegian bokmål for user-facing text
-- Avoid unnecessary anglicisms when good Norwegian alternatives exist
+- Bruk norsk bokmål for brukerrettet tekst og vedvarende dokumentasjon i repoet
+- Unngå unødige anglifismer når det finnes gode norske alternativer
 
 ## Security
 
