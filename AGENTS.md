@@ -1,16 +1,16 @@
 # AGENTS.md — infotrygd-replikering
 
-<!-- TODO: Describe what this application does -->
+`infotrygd-replikering` overvåker replikering av Infotrygd-tabeller og eksponerer forsinkelse som Prometheus-metrikker.
 
-## Build & Test Commands
+## Bygg- og testkommandoer
 
 ```bash
-mvn test        # Run tests
-mvn verify      # Build and test
-mvn package     # Package without running tests: mvn package -DskipTests
+mvn test        # Kjør tester
+mvn verify      # Bygg og test
+mvn package     # Pakk uten tester: mvn package -DskipTests
 ```
 
-## Project Structure
+## Prosjektstruktur
 
 ```text
 mock-oidc/
@@ -18,34 +18,34 @@ nais/
 src/
 ```
 
-## Code Style
+## Kode- og endringsstil
 
-### Minimal Editing
+### Minimale endringer
 
-When fixing a bug or implementing a feature, change only what is necessary.
-Do not rename variables, restructure working code, or refactor beyond the task at hand.
-Keep diffs small and focused so they are easy to review.
+Når du retter en feil eller implementerer en funksjon, skal du bare endre det som er nødvendig.
+Ikke gi variabler nye navn, omstrukturer fungerende kode eller refaktorer utover oppgaven du løser.
+Hold diffene små og fokuserte, slik at de er enkle å gjennomgå.
 
-## Git Workflow
+## Git-flyt
 
-<!-- TODO: Document your branching and merge strategy -->
+Jobb på grenen som er opprettet for oppgaven, og hold endringene små og målrettede.
 
-## Boundaries
+## Rammer
 
-### ✅ Always
+### ✅ Alltid
 
-- Run tests after changes
-- Follow existing code patterns in the project
-- Preserve existing code structure — do not reorganize or refactor beyond the task
-- Validate all external input
+- Kjør tester etter endringer
+- Følg eksisterende mønstre i prosjektet
+- Bevar eksisterende kodestruktur — ikke reorganiser eller refaktorer utover oppgaven
+- Valider all ekstern input
 
-### ⚠️ Ask First
+### ⚠️ Avklar først
 
-- Changing authentication mechanisms
-- Adding new dependencies
-- Modifying database schema
+- Endring av autentiseringsmekanismer
+- Nye avhengigheter
+- Endring av databaseskjema
 
-### 🚫 Never
+### 🚫 Aldri
 
-- Commit secrets or credentials
-- Skip input validation on external boundaries
+- Commit aldri hemmeligheter eller påloggingsinformasjon
+- Hopp aldri over inputvalidering på eksterne grenser
