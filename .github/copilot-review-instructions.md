@@ -1,7 +1,7 @@
 ## Kotlin
 
 - Parameterized SQL queries (`?` or named params), never string concatenation
-- Use Kotest matchers (`shouldBe`) in tests
+- Use JUnit 5 + AssertJ conventions in tests
 - Prefer sealed classes for state modeling
 
 ## Norsk tekst (brukerrettet tekst og varig dokumentasjon)
