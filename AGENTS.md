@@ -28,7 +28,9 @@ Keep diffs small and focused so they are easy to review.
 
 ## Git Workflow
 
-<!-- TODO: Document your branching and merge strategy -->
+Create a short-lived branch for each change from the main branch.
+Keep the branch focused on a single task and update it with the latest main branch before merging.
+Merge changes through a pull request after tests pass and required review is complete.
 
 ## Boundaries
 
