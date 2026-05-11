@@ -1,6 +1,10 @@
 # AGENTS.md — infotrygd-replikering
 
-<!-- TODO: Describe what this application does -->
+`infotrygd-replikering` er et monitoreringsverktøy for replikering av Infotrygd-tabeller fra on-prem Oracle til andre systemer. Tjenesten sjekker hvert 30. sekund hvor gammel den nyeste raden i hver overvåket tabell er (basert på kolonnen `OPPDATERT`), og eksponerer forsinkelsen som en Prometheus-metrikk (`infotrygd_replikering_tabellforsinkelse`, i millisekunder). Grafana brukes for visualisering og varsling.
+
+Tabellene som skal overvåkes konfigureres i databasetabellen `replikering_status`. En tabell må ha en indeksert `OPPDATERT`-kolonne og `READY = true` for å bli inkludert.
+
+Tjenesten brukes internt av team som er avhengig av at Infotrygd-data er oppdatert — primært for å oppdage og varsle om replikeringsforsinkelser.
 
 ## Build & Test Commands
 
