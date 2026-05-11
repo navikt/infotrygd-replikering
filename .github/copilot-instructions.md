@@ -28,7 +28,7 @@ Tjenesten brukes internt av team som er avhengig av at Infotrygd-data er oppdate
 ## Key Patterns
 
 **Replikeringsovervåking:**
-`ReplikeringsstatusService` kjøres med `@Scheduled(fixedDelay = 30s)`. For hver tabell med `ready = true` i `replikering_status` hentes `max(OPPDATERT)` via raw SQL, og forsinkelsen beregnes som `current_timestamp - max(OPPDATERT)`.
+`ReplikeringsstatusService` kjøres med `@Scheduled(fixedDelay = 1000 * 30)`. For hver tabell med `ready = true` i `replikering_status` hentes `max(OPPDATERT)` via raw SQL, og forsinkelsen beregnes som `current_timestamp - max(OPPDATERT)`.
 
 **Prometheus-metrikker:**
 Gauge-metrikker initialiseres én gang per tabell (lazy, ved første oppdatering) og leses fra en thread-safe `ReplikeringsstatistikkHolder`. Tagg: `tabell=<schema>.<tabellnavn>`.
