@@ -5,8 +5,9 @@
 ## Build & Test Commands
 
 ```bash
-./gradlew test      # Run tests
-./gradlew build     # Build
+mvn test        # Run tests
+mvn verify      # Build and test
+mvn package     # Package without running tests: mvn package -DskipTests
 ```
 
 ## Project Structure
