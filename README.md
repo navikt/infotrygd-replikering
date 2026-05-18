@@ -1,4 +1,4 @@
-# Monitorieringsverktøy for Infotrygd Replikering
+# Monitoreringsverktøy for Infotrygd Replikering
 
 ## Tekniske krav til tabeller
 
