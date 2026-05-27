@@ -86,7 +86,7 @@ Tabellen `replikering_status`:
 | `APP_DATASOURCE_USERNAME` | DB-bruker | Ja (fra Vault) |
 | `APP_DATASOURCE_PASSWORD` | DB-passord | Ja (fra Vault) |
 | `APP_DEFAULT_SCHEMA` | Oracle-schema | Ja |
-| `APP_DDL_AUTO` | Hibernate DDL-modus | Ja (`none` i prod) |
+| `APP_DDL_AUTO` | Hibernate DDL-modus | Nei (default `validate`, typisk `none` i prod) |
 | `APP_GRUPPE_ADMIN` | Azure AD-gruppe for tilgang | Ja |
 | `AZURE_APP_WELL_KNOWN_URL` | OIDC discovery-URL | Ja (injisert av Nais) |
 | `AZURE_APP_CLIENT_ID` | App-registrering i Azure | Ja (injisert av Nais) |
