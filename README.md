@@ -76,7 +76,7 @@ Tabellen `replikering_status`:
 |--------|-----|-------------|------|
 | GET | `/actuator/health` | Health check (liveness + readiness) | Åpen |
 | GET | `/actuator/prometheus` | Prometheus-metrikker | Åpen |
-| GET | `/swagger-ui.html` | Swagger UI | Azure AD |
+| GET | `/swagger-ui.html` | Swagger UI | Åpen |
 
 ## Konfigurasjon
 
