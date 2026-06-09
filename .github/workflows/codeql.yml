@@ -34,9 +34,6 @@ jobs:
           distribution: 'temurin'
           java-version: '25'
           cache: maven
-          server-id: github
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4
@@ -47,9 +44,6 @@ jobs:
       - name: Build Kotlin Backend
         if: ${{ matrix.language == 'java-kotlin' }}
         run: mvn --batch-mode clean package -DskipTests
-        env:
-          MAVEN_USERNAME: x-access-token
-          MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4
