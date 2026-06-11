@@ -1,3 +1,3 @@
-FROM ghcr.io/navikt/mock-oauth2-server:0.4.1
+FROM ghcr.io/navikt/mock-oauth2-server:4.0.0
 
 COPY config.json /config.json
