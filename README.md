@@ -15,6 +15,7 @@ mvn verify              # Bygg og kjør tester
 Lokal kjøring med Docker Compose (inkluderer Oracle, mock-OIDC og Wonderwall):
 
 ```bash
+docker compose build
 docker compose up
 ```
 
