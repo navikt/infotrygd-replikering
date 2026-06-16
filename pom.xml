@@ -64,14 +64,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-json</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-restclient</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -106,10 +98,6 @@
 
 		<dependency>
 			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-tracing-bridge-brave</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-core</artifactId>
 		</dependency>
 		<dependency>
@@ -140,10 +128,6 @@
 			<artifactId>oracle-xe</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.hibernate.orm</groupId>
-			<artifactId>hibernate-core</artifactId>
-		</dependency>
 
 		<!-- token-validation-test-support -->
 
@@ -156,11 +140,6 @@
 		<dependency>
 			<groupId>no.nav.security</groupId>
 			<artifactId>token-validation-spring</artifactId>
-			<version>${token-validation.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>no.nav.security</groupId>
-			<artifactId>token-client-spring</artifactId>
 			<version>${token-validation.version}</version>
 		</dependency>
 		<dependency>
