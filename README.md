@@ -4,7 +4,7 @@ Overvåker replikering av Infotrygd-tabeller fra on-prem Oracle og eksponerer fo
 
 ## Kom i gang
 
-**Forutsetninger:** Java 21, Maven, Docker (for integrasjonstester med Oracle)
+**Forutsetninger:** Java 25, Maven, Docker (for integrasjonstester med Oracle)
 
 ```bash
 git clone https://github.com/navikt/infotrygd-replikering
@@ -23,7 +23,7 @@ Appen er da tilgjengelig på `http://localhost:8080`, med innlogging via `http:/
 
 ## Tech stack
 
-- **Språk:** Kotlin, Java 21
+- **Språk:** Kotlin, Java 25
 - **Rammeverk:** Spring Boot 4.0
 - **Database:** Oracle (on-prem, via Vault-credentials)
 - **Auth:** Azure AD (token-validation-spring)
