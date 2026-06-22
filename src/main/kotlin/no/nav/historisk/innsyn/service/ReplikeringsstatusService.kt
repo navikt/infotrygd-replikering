@@ -3,6 +3,7 @@ package no.nav.historisk.innsyn.service
 import io.micrometer.core.instrument.ImmutableTag
 import io.micrometer.core.instrument.MeterRegistry
 import jakarta.transaction.Transactional
+import net.logstash.logback.argument.StructuredArguments.kv
 import no.nav.historisk.innsyn.model.value.TabellRef
 import no.nav.historisk.innsyn.repository.ReplikeringsstatusRepository
 import org.slf4j.Logger
@@ -32,8 +33,6 @@ class ReplikeringsstatusService(
     @Scheduled(fixedDelay = 1000 * 30)
     @Transactional
     fun oppdater() {
-        logger.info("Oppdater")
-
         val metrikker = replikeringsstatusRepository.findAll()
             .filter { it.ready }
             .map {
@@ -42,10 +41,12 @@ class ReplikeringsstatusService(
                         sistOppdatering = finnSistOppdatert(it.tabellRef)
                     )
                 } catch (e: Exception) {
-                    logger.error("Kunne ikke lese statistikk for tabell", e)
+                    logger.error("Kunne ikke lese statistikk for tabell", kv("tabell", it.tabellRef), e)
                     null
                 }
         }.filterNotNull().toMap()
+
+        logger.info("Oppdaterer replikeringsstatistikk", kv("antall_tabeller", metrikker.size))
 
         statusHolder.replikeringsstatistikk =
             Replikeringsstatistikk(
