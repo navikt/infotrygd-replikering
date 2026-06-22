@@ -9,6 +9,8 @@ updates:
     ignore:
       - dependency-name: "org.springframework.boot*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "org.jetbrains.kotlin*"
+        versions: [ "> 2.3.21" ]
     groups:
       spring-boot-minor:
         patterns: ["org.springframework.boot*"]
