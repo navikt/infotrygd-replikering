@@ -13,7 +13,7 @@ spec:
   alerts:
     - alert: ReplikeringForsinkelse
       expr: |
-        (infotrygd_replikering_tabellforsinkelse > 3600000)
+        (infotrygd_replikering_tabellforsinkelse / 1000 > 3600)
         and on()
         (
           (day_of_week() > 0 and day_of_week() < 6)
