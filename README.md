@@ -24,7 +24,7 @@ Appen er da tilgjengelig på `http://localhost:8080`, med innlogging via `http:/
 ## Tech stack
 
 - **Språk:** Kotlin, Java 25
-- **Rammeverk:** Spring Boot 4.0
+- **Rammeverk:** Spring Boot 4.1.0
 - **Database:** Oracle (on-prem, via Vault-credentials)
 - **Auth:** Azure AD (token-validation-spring)
 - **Metrikker:** Micrometer → Prometheus
