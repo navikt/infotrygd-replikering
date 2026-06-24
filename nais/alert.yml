@@ -21,6 +21,6 @@ spec:
           (hour() >= 6 and hour() < 15)
         )
       for: 15m
-      description: "Tabell {{ $labels.tabell }} har {{ $value | humanizeDuration }} forsinkelse (terskel: 1 time). Kun varsling på hverdager 06–15 UTC."
+      description: "Tabell \\{{ $labels.tabell }} har \\{{ $value | humanizeDuration }} forsinkelse (terskel: 1 time). Kun varsling på hverdager 06–15 UTC."
       action: "Sjekk replikering fra on-prem Oracle. Verifiser at kildetabellen oppdateres og at replikeringen kjører."
       severity: warning
