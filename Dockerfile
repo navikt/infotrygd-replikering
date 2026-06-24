@@ -1,4 +1,4 @@
-FROM gcr.io/distroless/java21-debian13:nonroot
+FROM gcr.io/distroless/java25-debian13:nonroot
 
 ENV JAVA_OPTS="${JAVA_OPTS} -Xms270M"
 ENV TZ="Europe/Oslo"
