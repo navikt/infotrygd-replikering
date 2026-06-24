@@ -1,0 +1,26 @@
+apiVersion: "nais.io/v1"
+kind: "Alert"
+metadata:
+  name: infotrygd-replikering-alerts
+  namespace: infotrygd
+  labels:
+    team: infotrygd
+spec:
+  receivers:
+    slack:
+      channel: "#infotrygd_replikering_alerts"
+      prependText: "@here "
+  alerts:
+    - alert: ReplikeringForsinkelse
+      expr: |
+        (infotrygd_replikering_tabellforsinkelse / 1000 > 3600)
+        and on()
+        (
+          (day_of_week() > 0 and day_of_week() < 6)
+          and
+          (hour() >= 6 and hour() < 15)
+        )
+      for: 15m
+      description: "Tabell {{ $labels.tabell }} har {{ $value | humanizeDuration }} forsinkelse (terskel: 1 time). Kun varsling på hverdager 06–15 UTC."
+      action: "Sjekk replikering fra on-prem Oracle. Verifiser at kildetabellen oppdateres og at replikeringen kjører."
+      severity: warning
