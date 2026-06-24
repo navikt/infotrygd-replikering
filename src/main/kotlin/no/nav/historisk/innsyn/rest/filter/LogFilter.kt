@@ -24,6 +24,8 @@ class LogFilter(private val registry: MeterRegistry, @Value("\${spring.applicati
 
     private val dontLog = setOf(
         "/actuator/health",
+        "/actuator/health/liveness",
+        "/actuator/health/readiness",
         "/actuator/prometheus",
         "/actuator")
 

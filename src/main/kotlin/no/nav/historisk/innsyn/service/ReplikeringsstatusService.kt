@@ -32,8 +32,6 @@ class ReplikeringsstatusService(
     @Scheduled(fixedDelay = 1000 * 30)
     @Transactional
     fun oppdater() {
-        logger.info("Oppdater")
-
         val metrikker = replikeringsstatusRepository.findAll()
             .filter { it.ready }
             .map {
@@ -42,10 +40,12 @@ class ReplikeringsstatusService(
                         sistOppdatering = finnSistOppdatert(it.tabellRef)
                     )
                 } catch (e: Exception) {
-                    logger.error("Kunne ikke lese statistikk for tabell", e)
+                    logger.error("Kunne ikke lese statistikk for tabell {}", it.tabellRef, e)
                     null
                 }
         }.filterNotNull().toMap()
+
+        logger.info("Oppdaterer replikeringsstatistikk antall_tabeller={}", metrikker.size)
 
         statusHolder.replikeringsstatistikk =
             Replikeringsstatistikk(

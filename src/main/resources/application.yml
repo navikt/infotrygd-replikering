@@ -32,9 +32,16 @@ spring:
       platform: oracle
 
 management:
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
   endpoint:
     health:
-      show-details: ALWAYS
+      show-details: WHEN_AUTHORIZED
+      probes:
+        enabled: true
   endpoints:
     web:
       exposure:

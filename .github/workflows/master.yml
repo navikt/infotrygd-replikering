@@ -44,7 +44,7 @@ jobs:
         uses: nais/deploy/actions/deploy@5fdd91aaf69bb0d6dd5e5118cdacb639f487b93b # v2
         env:
           CLUSTER: dev-fss
-          RESOURCE: nais/app/backend.yaml
+          RESOURCE: nais/app/backend.yaml,nais/alert.yml
           VARS: nais/dev.json
           VAR: image=${{ steps.docker-build-push.outputs.image  }}
 
@@ -54,6 +54,6 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-fss
-          RESOURCE: nais/app/backend.yaml
+          RESOURCE: nais/app/backend.yaml,nais/alert.yml
           VARS: nais/prod.json
           VAR: image=${{ steps.docker-build-push.outputs.image  }}

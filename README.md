@@ -108,6 +108,14 @@ Deployes til Nais via GitHub Actions ved push til `master`.
 - **Tracing:** OpenTelemetry auto-instrumentering (Java agent)
 - **Ingress:** `https://infotrygd-replikering.intern.nav.no` (prod)
 
+### Alerting
+
+Konfigurert i `nais/alert.yml`. Varsler på Slack-kanalen `#infotrygd_replikering_alerts` dersom en tabell har mer enn **1 times forsinkelse**.
+
+Alertet trigges kun **hverdager 08–17 CEST** (06–15 UTC) for å unngå falske alarmer i helger og netter, da replikering normalt er forsinket utenfor arbeidstid.
+
+> **Merk:** Helligdager som faller på ukedager vil fortsatt trigge alertet — dette kan ikke filtreres i PromQL.
+
 ## Lokal utvikling
 
 Profilen `noauth` deaktiverer Azure AD-validering for lokal testing.
