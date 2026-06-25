@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-java@ad2b38190b15e4d6bdf0c97fb4fca8412226d287 # v5.3.0
         with:
           distribution: temurin
-          java-version: '21.x'
+          java-version: '25'
           cache: maven
 
       - name: Set cache key
@@ -44,7 +44,7 @@ jobs:
         uses: nais/deploy/actions/deploy@5fdd91aaf69bb0d6dd5e5118cdacb639f487b93b # v2
         env:
           CLUSTER: dev-fss
-          RESOURCE: nais/app/backend.yaml,nais/alert.yml
+          RESOURCE: nais/app/backend.yaml
           VARS: nais/dev.json
           VAR: image=${{ steps.docker-build-push.outputs.image  }}
 
@@ -54,6 +54,6 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-fss
-          RESOURCE: nais/app/backend.yaml,nais/alert.yml
+          RESOURCE: nais/app/backend.yaml
           VARS: nais/prod.json
           VAR: image=${{ steps.docker-build-push.outputs.image  }}
