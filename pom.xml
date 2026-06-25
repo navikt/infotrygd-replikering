@@ -17,9 +17,8 @@
 	<properties>
 		<java.version>25</java.version>
 		<kotlin.version>2.3.21</kotlin.version>
-		<testcontainers.version>1.21.4</testcontainers.version>
 		<token-validation.version>5.0.30</token-validation.version>
-		<mock-oauth2-server.version>4.0.0</mock-oauth2-server.version>
+		<mock-oauth2-server.version>4.0.1</mock-oauth2-server.version>
 		<datasource-proxy.version>1.11.0</datasource-proxy.version>
 		<springdoc-openapi-ui.version>3.0.3</springdoc-openapi-ui.version>
 		<logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
@@ -31,7 +30,7 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>2025.1.1</version>
+				<version>2025.1.2</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -125,7 +124,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.testcontainers</groupId>
-			<artifactId>oracle-xe</artifactId>
+			<artifactId>testcontainers-oracle-xe</artifactId>
 			<scope>test</scope>
 		</dependency>
 
@@ -153,17 +152,17 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>11.0.22</version>
+            <version>11.0.23</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-websocket</artifactId>
-            <version>11.0.22</version>
+            <version>11.0.23</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-el</artifactId>
-            <version>11.0.22</version>
+            <version>11.0.23</version>
         </dependency>
 	</dependencies>
 
