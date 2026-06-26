@@ -22,4 +22,5 @@
     </springProfile>
 
     <logger level="DEBUG" name="no.nav"/>
+    <logger name="org.hibernate.orm.connections.pooling" level="WARN"/>
 </configuration>
