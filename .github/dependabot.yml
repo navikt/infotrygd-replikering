@@ -32,7 +32,7 @@ updates:
 
   - package-ecosystem: "docker"
     directories:
-      - "/backend"
+      - "/"
       - "/mock-oidc"
     schedule:
       interval: "weekly"
