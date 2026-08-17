@@ -44,3 +44,15 @@ HikariCP med `maximum-pool-size: 2` (Oracle on-prem, lavt volum). Schema settes 
 Når du retter en feil eller implementerer en funksjon, skal du bare endre det som er nødvendig.
 Ikke gi variabler nye navn, omstrukturer velfungerende kode, eller refaktorer utover det oppgaven krever.
 Hold diffene små og fokuserte, slik at de er enkle å gjennomgå.
+
+## Test-krav
+
+- Kjør `mvn test` etter alle kodeendringer — ikke vurder oppgaven som ferdig før tester er grønne
+- Ny kode skal alltid ha tilhørende tester; generer dem som del av leveransen
+- Hvis testdekning mangler for endret kode, si ifra og foreslå tester før commit
+- Ikke foreslå å hoppe over tester eller bruke `--no-verify`
+
+## Commit-preferanser
+
+- Aldri commit med `--no-verify`
+- Aldri push til GitHub
