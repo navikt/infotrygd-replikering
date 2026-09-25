@@ -85,7 +85,7 @@ class LogFilter(private val registry: MeterRegistry, @Value("\${spring.applicati
     }
 
     private fun String.sanitizeForLog(): String =
-        replace('\r', '_').replace('\n', '_')
+        map { ch -> if (ch.isISOControl()) '_' else ch }.joinToString("")
 
     companion object {
         const private val CONSUMER_ID_HEADER = "Nav-Consumer-Id"
