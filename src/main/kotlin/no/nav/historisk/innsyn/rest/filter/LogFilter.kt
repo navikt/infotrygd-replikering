@@ -38,7 +38,11 @@ class LogFilter(private val registry: MeterRegistry, @Value("\${spring.applicati
         val frontendLogUuid: String = req.cookies?.find { it.name == frontendLoggingCookie }?.value
             ?: run {
                 val uuid = UUID.randomUUID().toString()
-                res.addCookie(Cookie(frontendLoggingCookie, uuid))
+                val cookie = Cookie(frontendLoggingCookie, uuid)
+                cookie.path = "/"
+                cookie.secure = true
+                cookie.setHttpOnly(true)
+                res.addCookie(cookie)
                 uuid
             }
 
@@ -48,8 +52,9 @@ class LogFilter(private val registry: MeterRegistry, @Value("\${spring.applicati
             val millis = time { chain.doFilter(request, response) }
 
             if(!dontLog.contains(req.requestURI)) {
-                val host = req.getHeader("Host")
-                log.info("[${millis}ms]\t${res.status} ${req.method} ${req.requestURI} \t($host)")
+                val host = req.getHeader("Host").sanitizeForLog()
+                val requestUri = req.requestURI.sanitizeForLog()
+                log.info("[{}ms]\t{} {} \t({})", millis, res.status, req.method, requestUri, host)
             }
 
         } finally {
@@ -78,6 +83,9 @@ class LogFilter(private val registry: MeterRegistry, @Value("\${spring.applicati
     override fun toString(): String {
         return javaClass.simpleName
     }
+
+    private fun String.sanitizeForLog(): String =
+        replace('\r', '_').replace('\n', '_')
 
     companion object {
         const private val CONSUMER_ID_HEADER = "Nav-Consumer-Id"
