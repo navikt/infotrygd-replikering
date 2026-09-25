@@ -54,7 +54,7 @@ class LogFilter(private val registry: MeterRegistry, @Value("\${spring.applicati
             if(!dontLog.contains(req.requestURI)) {
                 val host = req.getHeader("Host")?.sanitizeForLog()
                 val requestUri = req.requestURI.sanitizeForLog()
-                log.info("[{}ms]\t{} {} \t({})", millis, res.status, req.method, requestUri, host)
+                log.info("[{}ms]\t{} {} \t({}) ({})", millis, res.status, req.method, requestUri, host)
             }
 
         } finally {
