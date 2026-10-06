@@ -1,7 +1,6 @@
 package no.nav.historisk.innsyn.rest.filter
 
 import io.micrometer.core.instrument.MeterRegistry
-import io.micrometer.core.instrument.Tag
 import no.nav.historisk.innsyn.utils.MdcHelper
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -74,7 +73,7 @@ class LogFilter(private val registry: MeterRegistry, @Value("\${spring.applicati
             val consumerId = request.getHeader(CONSUMER_ID_HEADER) ?: "[ukjent_applikasjon]"
             MdcHelper.consumerId = consumerId
             MdcHelper.callId = request.getHeader(CALL_ID_HEADER) ?: UUID.randomUUID().toString()
-            registry.counter("${applicationName}_consumers", listOf(Tag.of("consumer_id", consumerId))).increment()
+            registry.counter("${applicationName}_consumers").increment()
         } catch (e: Exception) {
             log.warn("Noe gikk galt ved setting av MDC-verdier for request {}, MDC-verdier er inkomplette", request.requestURI, e)
         }

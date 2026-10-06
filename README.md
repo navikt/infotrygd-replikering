@@ -53,6 +53,8 @@ Appen er da tilgjengelig på `http://localhost:8080`, med innlogging via `http:/
 **Metrikknavn:** `infotrygd_replikering_tabellforsinkelse` (millisekunder)
 **Tags:** `tabell=<schema>.<tabellnavn>`
 
+Ved manglende måling (lesefeil, tom tabell eller deaktivert overvåking) rapporterer en tidligere registrert gauge `NaN`, ikke null forsinkelse. Gauges rapporterer også `NaN` mens en ny oppdatering pågår eller hvis oppslaget av overvåkede tabeller feiler. `infotrygd_replikering_oppdatering_vellykket` har verdien `1` når alle overvåkede tabeller ble lest ved siste oppdatering, og `0` før første vellykkede oppdatering, under kjøring eller etter feil. Telleren `infotrygd_replikering_consumers_total` summerer forespørsler uten klientstyrte labels.
+
 ### Krav til overvåkede tabeller
 
 - Må ha en kolonne `OPPDATERT` (timestamp)

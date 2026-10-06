@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.Instant
+import java.util.concurrent.atomic.AtomicInteger
 
 @Service
 class ReplikeringsstatusService(
@@ -22,6 +23,9 @@ class ReplikeringsstatusService(
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     private val statusHolder: ReplikeringsstatistikkHolder = ReplikeringsstatistikkHolder(null)
+    private val oppdateringVellykket = AtomicInteger(0).also {
+        registry.gauge("infotrygd_replikering_oppdatering_vellykket", it)
+    }
 
     fun status(): Replikeringsstatistikk? {
         return statusHolder.replikeringsstatistikk
@@ -32,6 +36,9 @@ class ReplikeringsstatusService(
     @Scheduled(fixedDelay = 1000 * 30)
     @Transactional
     fun oppdater() {
+        oppdateringVellykket.set(0)
+        statusHolder.replikeringsstatistikk = null
+        var alleTabellerLest = true
         val metrikker = replikeringsstatusRepository.findAll()
             .filter { it.ready }
             .map {
@@ -40,6 +47,7 @@ class ReplikeringsstatusService(
                         sistOppdatering = finnSistOppdatert(it.tabellRef)
                     )
                 } catch (e: Exception) {
+                    alleTabellerLest = false
                     logger.error("Kunne ikke lese statistikk for tabell {}", it.tabellRef, e)
                     null
                 }
@@ -58,6 +66,7 @@ class ReplikeringsstatusService(
                 initialisert.add(tabell)
             }
         }
+        oppdateringVellykket.set(if (alleTabellerLest) 1 else 0)
     }
 
     private fun gauge(tabell: TabellRef) {
@@ -65,7 +74,7 @@ class ReplikeringsstatusService(
         val tags = listOf(ImmutableTag("tabell", tabell.toString()))
         registry.gauge("infotrygd_replikering_tabellforsinkelse", tags, statusHolder) {
             val status = it.replikeringsstatistikk?.metrikker?.get(tabell)?.sistOppdatering?.antallMillisekunder
-            status?.toDouble() ?: 0.0
+            status?.toDouble() ?: Double.NaN
         }
     }
 

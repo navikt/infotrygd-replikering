@@ -19,8 +19,8 @@
             <appender-ref ref="STDOUT" />
         </root>
         <root level="info" />
+        <logger level="DEBUG" name="no.nav"/>
     </springProfile>
 
-    <logger level="DEBUG" name="no.nav"/>
     <logger name="org.hibernate.orm.connections.pooling" level="WARN"/>
 </configuration>
