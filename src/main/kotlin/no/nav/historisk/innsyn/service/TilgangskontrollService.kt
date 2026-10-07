@@ -25,7 +25,6 @@ class TilgangskontrollService(
 
     private fun harGruppetilgangForAdmin(): Boolean {
         val grupper = tokenHelper.grupper()
-        logger.debug("Fikk følgende grupper fra Azure: $grupper")
         return grupper.contains(gruppeAdmin)
     }
 }

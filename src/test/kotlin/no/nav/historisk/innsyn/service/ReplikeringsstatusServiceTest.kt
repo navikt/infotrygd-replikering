@@ -1,5 +1,7 @@
 package no.nav.historisk.innsyn.service
 
+import io.micrometer.core.instrument.MeterRegistry
+import io.micrometer.prometheusmetrics.PrometheusMeterRegistry
 import no.nav.historisk.innsyn.model.Replikeringsstatus
 import no.nav.historisk.innsyn.model.value.Schemanavn
 import no.nav.historisk.innsyn.model.value.Tabellnavn
@@ -26,6 +28,12 @@ class ReplikeringsstatusServiceTest {
     @Autowired
     private lateinit var jdbcTemplate: NamedParameterJdbcTemplate
 
+    @Autowired
+    private lateinit var registry: MeterRegistry
+
+    @Autowired
+    private lateinit var prometheusRegistry: PrometheusMeterRegistry
+
     @Test
     fun `henter siste timestamp`() {
         val replikeringsstatusEntity = Replikeringsstatus(
@@ -51,6 +59,9 @@ class ReplikeringsstatusServiceTest {
         val statistikk = replikeringsstatusService.status()
         assertThat(statistikk?.metrikker?.get(replikeringsstatusEntity.tabellRef)?.sistOppdatering?.timestamp?.atOffset(ZoneOffset.UTC)?.second)
             .isEqualTo(siste.second)
+        assertThat(registry.get("infotrygd_replikering_tabellforsinkelse")
+            .tag("tabell", replikeringsstatusEntity.tabellRef.toString()).gauge().value()).isPositive()
+        assertThat(registry.get("infotrygd_replikering_oppdatering_vellykket").gauge().value()).isZero()
     }
 
     @Test
@@ -67,6 +78,36 @@ class ReplikeringsstatusServiceTest {
         val sistOppdatering = statistikk?.metrikker?.get(replikeringsstatusEntity.tabellRef)?.sistOppdatering
         assertThat(sistOppdatering).isNotNull()
         assertThat(sistOppdatering?.timestamp).isNull()
+        assertThat(registry.get("infotrygd_replikering_tabellforsinkelse")
+            .tag("tabell", replikeringsstatusEntity.tabellRef.toString()).gauge().value()).isNaN()
+        assertThat(prometheusRegistry.scrape())
+            .contains("infotrygd_replikering_tabellforsinkelse{tabell=\"testtabeller.testtabell\"} NaN")
+        assertThat(registry.get("infotrygd_replikering_oppdatering_vellykket").gauge().value()).isEqualTo(1.0)
+    }
+
+    @Test
+    fun `deaktivert tabell viser ikke null forsinkelse`() {
+        val tabell = Replikeringsstatus(
+            schema = Schemanavn("testtabeller"),
+            tabell = Tabellnavn("testtabell"),
+            ready = true
+        )
+        replikeringsstatusRepository.saveAndFlush(tabell)
+        insertTesttabell(OffsetDateTime.parse("2020-01-01T11:01:00Z"))
+        replikeringsstatusService.oppdater()
+        val gauge = registry.get("infotrygd_replikering_tabellforsinkelse")
+            .tag("tabell", tabell.tabellRef.toString()).gauge()
+        assertThat(gauge.value()).isPositive()
+
+        replikeringsstatusRepository.deleteAll()
+        replikeringsstatusRepository.saveAndFlush(Replikeringsstatus(
+            schema = Schemanavn("testtabeller"),
+            tabell = Tabellnavn("testtabell"),
+            ready = false
+        ))
+        replikeringsstatusService.oppdater()
+
+        assertThat(gauge.value()).isNaN()
     }
 
     private fun insertTesttabell(timestamp: OffsetDateTime) {
