@@ -35,13 +35,13 @@ jobs:
         run: mvn verify
 
       - name: Bygg og push docker image til GAR
-        uses: nais/docker-build-push@423a915c9b72edf2ba848b88171ccb0489e2a40a # v0
+        uses: nais/docker-build-push@dd7421d5068057a020ca46ead966c26190c516b1 # v0
         id: docker-build-push
         with:
           team: infotrygd
 
       - name: Deploy back-end til dev-fss
-        uses: nais/deploy/actions/deploy@7ad7c2b833e1db74a80954e3ee6bb6ac060a8ae7 # v2
+        uses: nais/deploy/actions/deploy@9850be311389ca754d9a9f2280615419d738c891 # v3
         env:
           CLUSTER: dev-fss
           RESOURCE: nais/app/backend.yaml
@@ -50,7 +50,7 @@ jobs:
 
       - name: Deploy back-end til prod-fss
         if: github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, 'ci skip')
-        uses: nais/deploy/actions/deploy@7ad7c2b833e1db74a80954e3ee6bb6ac060a8ae7 # v2
+        uses: nais/deploy/actions/deploy@9850be311389ca754d9a9f2280615419d738c891 # v3
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-fss
