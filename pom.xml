@@ -17,6 +17,8 @@
 	<properties>
 		<java.version>25</java.version>
 		<kotlin.version>2.4.0</kotlin.version>
+		<jackson-2-bom.version>2.21.7</jackson-2-bom.version>
+		<jackson-bom.version>3.1.7</jackson-bom.version>
 		<tomcat.version>11.0.25</tomcat.version>
 		<token-validation.version>5.0.30</token-validation.version>
 		<mock-oauth2-server.version>6.1.2</mock-oauth2-server.version>
