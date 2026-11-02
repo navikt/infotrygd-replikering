@@ -162,7 +162,7 @@ class DatasourceConfig(private val environment: Environment) {
                     fallback
                 } else {
                     if (isTestEnvironment()) {
-                        logger.debug("vault.config directory '$configPath' has no key files in test environment, relying on Spring properties")
+                        logger.debug("vault.config directory '{}' has no key files in test environment, relying on Spring properties", configPath)
                         return ""
                     } else {
                         throw IllegalStateException(
@@ -251,8 +251,6 @@ class DatasourceConfig(private val environment: Environment) {
                         "Please configure at least one credential source."
             )
         }
-
-        logger.info("Datasource configured with URL: $url, Username: $username")
 
         val driverClassName = requireNotNull(datasourceConfiguration.driverClassName) { "spring.datasource.driverClassName is null" }
         val dataSourceBuilder = DataSourceBuilder.create()

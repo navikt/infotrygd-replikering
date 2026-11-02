@@ -70,7 +70,7 @@ class ReplikeringsstatusService(
     }
 
     private fun gauge(tabell: TabellRef) {
-        logger.info("Initialiserer metrics for tabell $tabell")
+        logger.info("Initialiserer metrics for tabell {}", tabell)
         val tags = listOf(ImmutableTag("tabell", tabell.toString()))
         registry.gauge("infotrygd_replikering_tabellforsinkelse", tags, statusHolder) {
             val status = it.replikeringsstatistikk?.metrikker?.get(tabell)?.sistOppdatering?.antallMillisekunder

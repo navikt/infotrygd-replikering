@@ -31,7 +31,7 @@ src/
     integration/    # REST-klienter og interceptors
     model/          # Domenemodeller og value objects (TabellRef, Ready, osv.)
     repository/     # ReplikeringsstatusRepository (JDBC)
-    rest/           # Controllers, ExceptionHandler, LogFilter, SwaggerInfo
+    rest/           # Controllers, ExceptionHandler, SwaggerInfo
     Application.kt  # Spring Boot entry point
     Profiles.kt     # Spring-profiler (noauth, osv.)
   test/             # Integrasjons- og enhetstester
