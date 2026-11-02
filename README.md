@@ -122,12 +122,33 @@ Alertet trigges kun **hverdager 08–17 CEST** (06–15 UTC) for å unngå falsk
 
 Profilen `noauth` deaktiverer Azure AD-validering for lokal testing.
 
-Kjør `DevMain.kt` fra testmappen for å starte appen med mock-konfigurasjon:
+Start `DevMain.kt` med OpenTelemetry-agenten:
 
 ```bash
-mvn test-compile
-# Kjør DevMain.kt fra IDE med profil "noauth"
+make backend-demo
 ```
+
+Make laster ned en versjonslåst agent til gitignored
+`target/otel/opentelemetry-javaagent.jar` og starter en egen JVM med `-javaagent`.
+Dette bruker samme instrumenteringsmekanisme som Nais, men versjonen er ikke
+automatisk synkronisert med Nais. Make setter `OTEL_TRACES_EXPORTER=none`,
+`OTEL_METRICS_EXPORTER=none` og `OTEL_LOGS_EXPORTER=none`, så ingen telemetri eksporteres.
+Ingen egen Spring-konfigurasjon, Maven-profil eller endring i produksjonsbygget er lagt til.
+
+For IntelliJ: kjør `make otel-agent`, og bruk repo-roten som **Working directory**
+for `DevMain.kt`. Legg til i **VM options**:
+
+```text
+-javaagent:target/otel/opentelemetry-javaagent.jar
+```
+
+Sett disse **Environment variables** i samme run-konfigurasjon:
+
+```text
+OTEL_SERVICE_NAME=infotrygd-replikering;OTEL_TRACES_EXPORTER=none;OTEL_METRICS_EXPORTER=none;OTEL_LOGS_EXPORTER=none
+```
+
+Kjør `make otel-agent` igjen etter `mvn clean`.
 
 Eller bruk Docker Compose som beskrevet under «Kom i gang».
 
