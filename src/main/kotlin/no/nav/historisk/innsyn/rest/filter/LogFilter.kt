@@ -75,7 +75,7 @@ class LogFilter(private val registry: MeterRegistry, @Value("\${spring.applicati
             MdcHelper.callId = request.getHeader(CALL_ID_HEADER) ?: UUID.randomUUID().toString()
             registry.counter("${applicationName}_consumers").increment()
         } catch (e: Exception) {
-            log.warn("Noe gikk galt ved setting av MDC-verdier for request {}, MDC-verdier er inkomplette", request.requestURI, e)
+            log.warn("Noe gikk galt ved setting av MDC-verdier for request {}, MDC-verdier er inkomplette", request.requestURI.sanitizeForLog(), e)
         }
     }
 
