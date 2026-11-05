@@ -21,6 +21,19 @@ docker compose up
 
 Appen er da tilgjengelig på `http://localhost:8080`, med innlogging via `http://localhost:3000`.
 
+## Avhengighetsrapportering
+
+Workflowen «Submit dependency graph» sender Maven-avhengighetsgrafen til GitHub
+for Dependabot. Den bruker Java 25 og kjører ved POM- eller workflow-endringer
+på `master`, eller manuelt fra GitHub Actions.
+
+Etter merge må vellykket innsending bekrefte at faktiske avhengighetsversjoner
+og transitive avhengigheter er rapportert. SBOM-generering og deploy i Nais er
+uendret.
+
+OpenTelemetry-bibliotekene styres samlet av BOM-versjon `1.67.0`, som retter
+CVE-2026-118259. Dette endrer ikke versjonen på Nais-agenten.
+
 ## Tech stack
 
 - **Språk:** Kotlin, Java 25

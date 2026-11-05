@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>25</java.version>
+		<opentelemetry.version>1.67.0</opentelemetry.version>
 		<kotlin.version>2.4.0</kotlin.version>
 		<tomcat.version>11.0.25</tomcat.version>
 		<token-validation.version>5.0.30</token-validation.version>
