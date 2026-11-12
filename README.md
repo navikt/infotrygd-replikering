@@ -39,7 +39,7 @@ Appen er da tilgjengelig på `http://localhost:8080`, med innlogging via `http:/
 ## Tech stack
 
 - **Språk:** Kotlin, Java 25
-- **Rammeverk:** Spring Boot 4.1.0
+- **Rammeverk:** Spring Boot 4.1.2
 - **Database:** Oracle (on-prem, via Vault-credentials)
 - **Auth:** Azure AD (token-validation-spring)
 - **Metrikker:** Micrometer → Prometheus
@@ -110,9 +110,9 @@ Tabellen `replikering_status`:
 
 | Variabel | Beskrivelse | Påkrevd |
 |----------|-------------|---------|
-| `APP_DATASOURCE_URL` | Oracle JDBC URL | Ja (fra Vault) |
-| `APP_DATASOURCE_USERNAME` | DB-bruker | Ja (fra Vault) |
-| `APP_DATASOURCE_PASSWORD` | DB-passord | Ja (fra Vault) |
+| `APP_DATASOURCE_URL` | Oracle JDBC URL | Nei (overstyrer `jdbc_url` i `/var/run/secrets/oracle/config`) |
+| `APP_DATASOURCE_USERNAME` | DB-bruker | Nei (overstyrer `username` i `/var/run/secrets/oracle/creds`) |
+| `APP_DATASOURCE_PASSWORD` | DB-passord | Nei (overstyrer `password` i `/var/run/secrets/oracle/creds`) |
 | `APP_DEFAULT_SCHEMA` | Oracle-schema | Ja |
 | `APP_DDL_AUTO` | Hibernate DDL-modus | Nei (default `validate`, typisk `none` i prod) |
 | `APP_GRUPPE_ADMIN` | Azure AD-gruppe som får tilgang til appen | Ja |
