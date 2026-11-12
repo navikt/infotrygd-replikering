@@ -2,6 +2,21 @@
 
 Overvåker replikering av Infotrygd-tabeller fra on-prem Oracle og eksponerer forsinkelse som Prometheus-metrikker.
 
+## Innhold
+
+- [Kom i gang](#kom-i-gang)
+- [Tech stack](#tech-stack)
+- [Arkitektur](#arkitektur)
+- [API](#api)
+- [Autentisering og tilgang](#autentisering-og-tilgang)
+- [Konfigurasjon](#konfigurasjon)
+- [Deploy](#deploy)
+- [Observabilitet](#observabilitet)
+- [Sikkerhet](#sikkerhet)
+- [Lokal utvikling](#lokal-utvikling)
+- [Team](#team)
+- [Lisens](#lisens)
+
 ## Kom i gang
 
 **Forutsetninger:** Java 25, Maven, Docker (for integrasjonstester med Oracle)
@@ -21,23 +36,10 @@ docker compose up
 
 Appen er da tilgjengelig på `http://localhost:8080`, med innlogging via `http://localhost:3000`.
 
-## Avhengighetsrapportering
-
-Workflowen «Submit dependency graph» sender Maven-avhengighetsgrafen til GitHub
-for Dependabot. Den bruker Java 25 og kjører ved POM- eller workflow-endringer
-på `master`, eller manuelt fra GitHub Actions.
-
-Etter merge må vellykket innsending bekrefte at faktiske avhengighetsversjoner
-og transitive avhengigheter er rapportert. SBOM-generering og deploy i Nais er
-uendret.
-
-OpenTelemetry-bibliotekene styres samlet av BOM-versjon `1.67.0`, som retter
-CVE-2026-118259. Dette endrer ikke versjonen på Nais-agenten.
-
 ## Tech stack
 
 - **Språk:** Kotlin, Java 25
-- **Rammeverk:** Spring Boot 4.1.0
+- **Rammeverk:** Spring Boot 4.1.2
 - **Database:** Oracle (on-prem, via Vault-credentials)
 - **Auth:** Azure AD (token-validation-spring)
 - **Metrikker:** Micrometer → Prometheus
@@ -93,17 +95,29 @@ Tabellen `replikering_status`:
 | GET | `/actuator/health` | Health check (liveness + readiness) | Åpen |
 | GET | `/actuator/prometheus` | Prometheus-metrikker | Åpen |
 | GET | `/swagger-ui.html` | Swagger UI | Åpen |
+| GET | `/tables` | Ikke implementert, svarer med feil | Åpen |
+
+## Autentisering og tilgang
+
+- **Innkommende:** Azure AD (Entra ID) via `token-validation-spring`, issuer `azure`
+- **Tilgang:** Bare medlemmer av gruppen i `APP_GRUPPE_ADMIN` får token til appen (`allowAllUsers: false` i Nais)
+- **Åpne endepunkter:** Actuator, Swagger og `/tables` (`@Unprotected`)
+- **Utgående:** Ingen kall til andre tjenester. Oracle-påloggingen kommer fra Vault
+- **Lokalt:** mock-OIDC på port 8102 og Wonderwall på port 3000 (Docker Compose). Profilen `noauth` slår av token-validering
+- **Manifest:** `nais/app/backend.yaml`
 
 ## Konfigurasjon
 
 | Variabel | Beskrivelse | Påkrevd |
 |----------|-------------|---------|
-| `APP_DATASOURCE_URL` | Oracle JDBC URL | Ja (fra Vault) |
-| `APP_DATASOURCE_USERNAME` | DB-bruker | Ja (fra Vault) |
-| `APP_DATASOURCE_PASSWORD` | DB-passord | Ja (fra Vault) |
+| `APP_DATASOURCE_URL` | Oracle JDBC URL | Nei (overstyrer `jdbc_url` i `/var/run/secrets/oracle/config`) |
+| `APP_DATASOURCE_USERNAME` | DB-bruker | Nei (overstyrer `username` i `/var/run/secrets/oracle/creds`) |
+| `APP_DATASOURCE_PASSWORD` | DB-passord | Nei (overstyrer `password` i `/var/run/secrets/oracle/creds`) |
 | `APP_DEFAULT_SCHEMA` | Oracle-schema | Ja |
 | `APP_DDL_AUTO` | Hibernate DDL-modus | Nei (default `validate`, typisk `none` i prod) |
-| `APP_GRUPPE_ADMIN` | Azure AD-gruppe for tilgang | Ja |
+| `APP_GRUPPE_ADMIN` | Azure AD-gruppe som får tilgang til appen | Ja |
+| `APP_AUDIT_HOST` | Syslog-host for audit | Ja (`audit.nais` i Nais) |
+| `APP_AUDIT_PORT` | Syslog-port for audit | Ja (`6514` i Nais) |
 | `AZURE_APP_WELL_KNOWN_URL` | OIDC discovery-URL | Ja (injisert av Nais) |
 | `AZURE_APP_CLIENT_ID` | App-registrering i Azure | Ja (injisert av Nais) |
 
@@ -118,10 +132,10 @@ Deployes til Nais via GitHub Actions ved push til `master`.
 
 ## Observabilitet
 
-- **Metrikker:** Prometheus gauge `infotrygd_replikering_tabellforsinkelse` (ms per tabell)
+- **Metrikker:** `infotrygd_replikering_tabellforsinkelse` og `infotrygd_replikering_oppdatering_vellykket`, se [Arkitektur](#arkitektur)
 - **Logger:** Elastic + Loki (konfigurert i Nais-manifest)
 - **Tracing:** OpenTelemetry auto-instrumentering (Java agent)
-- **Ingress:** `https://infotrygd-replikering.intern.nav.no` (prod)
+- **Ingress:** `https://infotrygd-replikering.intern.nav.no` (prod), `https://infotrygd-replikering.intern.dev.nav.no` (dev)
 
 ### Alerting
 
@@ -131,9 +145,18 @@ Alertet trigges kun **hverdager 08–17 CEST** (06–15 UTC) for å unngå falsk
 
 > **Merk:** Helligdager som faller på ukedager vil fortsatt trigge alertet — dette kan ikke filtreres i PromQL.
 
+## Sikkerhet
+
+- **CodeQL:** ved PR, push til `master` og ukentlig (`.github/workflows/codeql.yml`)
+- **Dependabot:** Maven, GitHub Actions, Docker og Docker Compose (`.github/dependabot.yml`). `maven-dependency-graph.yaml` sender inn Maven-avhengighetsgrafen
+- **Docker-image:** distroless, kjører som `nonroot`
+- **Actions:** låst til commit-SHA
+- **Hemmeligheter:** Oracle-pålogging fra Vault. Nais injiserer Azure-secrets
+- **SQL:** schema- og tabellnavn settes rett inn i spørringen, men appen godtar bare navn som matcher `^[a-zA-Z0-9_]+$`
+
 ## Lokal utvikling
 
-Profilen `noauth` deaktiverer Azure AD-validering for lokal testing.
+`DevMain.kt` starter appen med profilene `dev`, `demoData` og `debug-sql`. Testcontainers starter Oracle, og profilen `demoData` legger inn testdata. Profilen `dev` peker token-validering mot mock-OIDC på port 8102 (`docker compose up mock-oidc`). Profilen `noauth` slår av token-validering.
 
 Start `DevMain.kt` med OpenTelemetry-agenten:
 
@@ -169,3 +192,7 @@ Eller bruk Docker Compose som beskrevet under «Kom i gang».
 
 - **Team:** #infotrygd
 - **Namespace:** infotrygd
+
+## Lisens
+
+[MIT](LISENSIERING.md)
