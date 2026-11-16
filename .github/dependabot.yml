@@ -34,6 +34,7 @@ updates:
     directories:
       - "/"
       - "/mock-oidc"
+      - "/src/test/resources/syslog-mock"
     schedule:
       interval: "weekly"
     groups:
