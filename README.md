@@ -23,7 +23,7 @@ docker compose up mock-oidc
 Start appen i en annen terminal fra repo-roten:
 
 ```bash
-make backend-demo
+APP_DEFAULT_SCHEMA=test make backend-demo
 ```
 
 Dette starter [DevMain.kt](src/test/kotlin/DevMain.kt) med profilene `dev`, `demoData` og `debug-sql`. Testcontainers starter Oracle med testdata. Appen kjører på `http://localhost:8080`, med token-validering mot lokal mock-OIDC på port 8102.
