@@ -6,7 +6,7 @@ Kotlin og Spring Boot, med Oracle og Micrometer. Kjører på Nais.
 
 ## Kom i gang
 
-**Forutsetninger:** Java 25, Maven, Docker og Make.
+**Forutsetninger:** Java 25, Maven, Docker, Make og jq.
 
 ```bash
 git clone https://github.com/navikt/infotrygd-replikering
@@ -46,6 +46,27 @@ OTEL_SERVICE_NAME=infotrygd-replikering;OTEL_TRACES_EXPORTER=none;OTEL_METRICS_E
 
 Mock-OIDC må også kjøre. Kjør `make otel-agent` igjen etter `mvn clean`.
 
+### Test runtime-imaget
+
+Docker-imaget bruker Navs Chainguard JRE for Java 25. Lokalt kreves tilgang til Navs Chainguard-registry.
+
+```bash
+mvn verify
+docker build --pull -t infotrygd-replikering:smoke .
+mvn -Pcontainer-smoke -Dapp.image=infotrygd-replikering:smoke failsafe:integration-test failsafe:verify
+```
+
+Smoketesten starter det ferdige appimaget, en isolert Oracle-testdatabase og lokal mock-OIDC. Den bruker syntetiske data og midlertidige credentials via filer, og kontrollerer readiness og at replikeringsmetrikken endres etter en databaseoppdatering. Appcontaineren når mock-OIDC via Testcontainers, uten Nais-proxyen. Testen bruker åpne health- og metrikkendepunkter uten å deaktivere token-validering. Testressursene ryddes opp etter kjøring.
+
+Vanlig `mvn verify` kompilerer smoketesten, men starter ikke appimaget. Kjør derfor container-steget etter imagebygg. Ved endring av testkoden må `mvn verify` kjøres på nytt før container-steget.
+
+For lokal OS-skanning kreves også Trivy:
+
+```bash
+trivy image --scanners vuln --pkg-types os --list-all-pkgs --format json --output target/image-scan.json infotrygd-replikering:smoke
+bash scripts/check-image-scan.sh target/image-scan.json
+```
+
 ## Overvåking
 
 Appen leser aktive tabeller fra `replikering_status`, finner `max(OPPDATERT)` og beregner forsinkelsen mot databasens `current_timestamp`. Det er 30 sekunders pause mellom oppdateringene.
@@ -73,7 +94,11 @@ Appen bruker Entra ID via `token-validation-spring`. Nais begrenser brukertilgan
 
 ## Drift
 
-[GitHub Actions](.github/workflows/master.yml) bygger, tester og deployer til `dev-fss` og `prod-fss` ved push til `master`. Prod-steget utelates hvis commit-meldingen inneholder `ci skip`. [Nais-manifestet](nais/app/backend.yaml) bruker variabler fra [dev](nais/dev.json) og [prod](nais/prod.json).
+[GitHub Actions](.github/workflows/main.yml) bygger og tester ved push til `master`. Det ferdige imaget må bestå container-smoketesten og OS-skanningen for `CVE-2026-115506` før deployment. Skanningen må også ha gjenkjent OS og pakkeinnhold. Skannerresultat og imagereferanse lagres som artifactet `image-verification`.
+
+Dev-steget bruker Nais sin venting på en fullført rollout med alle ønskede instanser ready. Kontrollen går via Nais API, ikke direkte mot det private Kubernetes-API-et. Prod-deployment bruker samme testede imagereferanse og kjører bare hvis de foregående stegene lykkes. Prod-steget utelates fortsatt hvis commit-meldingen inneholder `ci skip`. [Nais-manifestet](nais/app/backend.yaml) bruker variabler fra [dev](nais/dev.json) og [prod](nais/prod.json).
+
+Readiness-gaten er ikke en kontroll av alle metrikker i dev. Kontroller replikeringsmetrikker, Vault-tilgang og Java-instrumentering i dev og prod som del av driftsoppfølgingen. Ved rollback til det gamle imaget kan sårbarheten bli gjeninnført.
 
 Logger sendes til Elastic og Loki. Nais aktiverer OpenTelemetry auto-instrumentering med Java-agent. Prometheus-metrikkene brukes i Grafana for visualisering og varsling.
 
