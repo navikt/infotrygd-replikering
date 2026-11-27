@@ -9,12 +9,17 @@ jobs:
   build:
     name: Bygg og test
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
-      packages: write
       contents: read
       id-token: write
+    concurrency:
+      group: deployment-${{ github.ref }}
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
         with:
           distribution: temurin
@@ -39,6 +44,42 @@ jobs:
         id: docker-build-push
         with:
           team: infotrygd
+          pull: true
+          platforms: linux/amd64
+
+      - name: Lagre image-referanse
+        env:
+          IMAGE: ${{ steps.docker-build-push.outputs.image }}
+        run: printf '%s\n' "$IMAGE" > target/tested-image.txt
+
+      - name: Test det pakkede container-imaget
+        env:
+          IMAGE: ${{ steps.docker-build-push.outputs.image }}
+        run: mvn --batch-mode -Pcontainer-smoke -Dapp.image="$IMAGE" failsafe:integration-test failsafe:verify
+
+      - name: Skann OS-pakker i container-imaget
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: ${{ steps.docker-build-push.outputs.image }}
+          scanners: vuln
+          vuln-type: os
+          format: json
+          output: target/image-scan.json
+          list-all-pkgs: 'true'
+          exit-code: '0'
+
+      - name: Kontroller CVE og komplett skannerapport
+        run: bash scripts/check-image-scan.sh target/image-scan.json
+
+      - name: Last opp skannerapport og testet image
+        if: always() && hashFiles('target/image-scan.json') != ''
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: image-verification
+          path: |
+            target/image-scan.json
+            target/tested-image.txt
+          if-no-files-found: error
 
       - name: Deploy back-end til dev-fss
         uses: nais/deploy/actions/deploy@b1a9a40dae937091497f8f29c5ea5334cc1c0643 # v3
@@ -46,7 +87,9 @@ jobs:
           CLUSTER: dev-fss
           RESOURCE: nais/app/backend.yaml
           VARS: nais/dev.json
-          VAR: image=${{ steps.docker-build-push.outputs.image  }}
+          VAR: image=${{ steps.docker-build-push.outputs.image }}
+          WAIT: 'true'
+          TIMEOUT: 10m
 
       - name: Deploy back-end til prod-fss
         if: github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, 'ci skip')
@@ -56,4 +99,4 @@ jobs:
           CLUSTER: prod-fss
           RESOURCE: nais/app/backend.yaml
           VARS: nais/prod.json
-          VAR: image=${{ steps.docker-build-push.outputs.image  }}
+          VAR: image=${{ steps.docker-build-push.outputs.image }}
